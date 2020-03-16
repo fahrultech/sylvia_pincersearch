@@ -18,11 +18,17 @@ class ImportData_model extends CI_Model
         return $query->num_rows();
     }
     function insertBarang($data){
+        $barangMasuk = 0;
+        $barangTidakMasuk = 0;
         foreach($data as $dat){
             if($this->getByKodeBarang($dat["kodeBarang"]) === 0){
                 $this->db->insert($this->table,$dat);
+                $barangMasuk++;
+            }else{
+                $barangTidakMasuk++;
             }
         }
+        return json_encode(array("barangMasuk" => $barangMasuk, "barangTidakMasuk" => $barangTidakMasuk));
     }
     function insertBarangBatch($data){
         $this->db->insert_batch($this->table,$data);

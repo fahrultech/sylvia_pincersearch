@@ -63,13 +63,8 @@ class ImportData extends CI_Controller{
             $headerTransaksi = $this->unique_multidim_array($headerTransaksi,'noInvoice');
             $this->ImportData_model->insertHeaderTransaksi($headerTransaksi);
             $this->ImportData_model->insertDetailTransaksi($detailTransaksi);
-            $this->ImportData_model->insertBarang($dataBarang);
-            echo "Data Imported Successfully";
+            $jumlahBarang = $this->ImportData_model->insertBarang($dataBarang);
+            echo $jumlahBarang;
         }
     }
-    function result(){
-        $out = $this->ImportData_model->getByKodeBarang('5132460291T');
-        echo $out;
-    }
-    
 }

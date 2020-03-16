@@ -25,7 +25,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 style="text-align:center">Import File</h4>
+                        <h4 class="mb-4" style="text-align:center">Import File</h4>
+                        <div style="margin:auto" class="col-5">
+                          <div class="dm" style="text-align:center">
+                            <div class="alert barangmasuk alert-success alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                               Barang Masuk <span class="jumlahBarangMasuk"></span> pcs
+                            </div>
+                          </div>
+                          <div class="dtm" style="text-align:center">
+                            <div class="alert barangtidakmasuk alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                               Barang Tidak Masuk <span class="jumlahBarangTidakMasuk"></span> pcs
+                            </div>
+                          </div>
+                        </div>
                         <form method="post" id="importbarang" enctype="multipart/form-data">
                             <div style="text-align:center" class="jumlahRow">
                             <div class="progress m-b-20">
@@ -61,6 +79,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url('assets/js/jquery.form.js')?>"></script>
 <script>
 $('.sk-fading-circle').hide();
+$('.dm').hide();
+$('.dtm').hide();
 $(document).ready(function(){
     $('.jumlahRow').hide();
     $('#importbarang').on('submit', function(event){
@@ -79,8 +99,14 @@ $(document).ready(function(){
                 $('.sk-fading-circle').hide();
             },
 			success:function(data){
+                console.log(data);
                 $('#file').val('');
-				alert(data);
+                $('.dm').show();
+                $('.dtm').show();
+                $('.jumlahBarangMasuk').text(JSON.parse(data).barangMasuk);
+                $('.jumlahBarangTidakMasuk').text(JSON.parse(data).barangTidakMasuk);
+                $('.barangmasuk').addClass('show');
+                $('.barangtidakmasuk').addClass('show');
 			},
             error: function(request, status, error){
                 alert(error);

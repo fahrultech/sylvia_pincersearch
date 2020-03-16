@@ -86,7 +86,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                                 </div>
                                             </div>
-
                                             <div class="form-group row text-center m-t-10">
                                                 <div class="col-12">
                                                     <button class="btn btn-md btn-block btn-primary waves-effect waves-light" type="submit">Sign In</button>

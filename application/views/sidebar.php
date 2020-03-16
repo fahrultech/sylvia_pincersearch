@@ -25,6 +25,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </a>
                             </li>
                             <li>
+                                <a href="<?php echo site_url('DataDetailTransaksi');?>">
+                                    <i class="fi-air-play"></i><span> Data Detail Transaksi </span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="<?php echo site_url('PerhitunganPincerSearch');?>"><i class="fi-target"></i> <span> Perhitungan Pincer</span></a>
                             </li>
                             <li>
