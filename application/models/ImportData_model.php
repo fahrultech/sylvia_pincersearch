@@ -17,6 +17,7 @@ class ImportData_model extends CI_Model
         $query = $this->db->get();
         return $query->num_rows();
     }
+    
     function insertBarang($data){
         foreach($data as $dat){
             if($this->getByKodeBarang($dat["kodeBarang"]) === 0){

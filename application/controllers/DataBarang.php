@@ -26,13 +26,12 @@ class DataBarang extends CI_Controller{
            $row[] = $li->kodeBarang;
            $row[] = $li->namaBarang;
            $row[] = '<div style="text-align:center">
-                      <button onClick="editAlatTangkap('."'$li->idBarang'".')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-xs btn-danger" onClick="hapusAlatTangkap('."'$li->idBarang'".')"><i class="fa fa-trash"></i></button>
+                      <button onClick="editBarang('."'$li->idBarang'".')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-xs btn-danger" onClick="hapusBarang('."'$li->idBarang'".')"><i class="fa fa-trash"></i></button>
                     </div>';
            $data[] = $row;
         }
         $output = array("draw" => $_POST['draw'],
-          //"recordsTotal" => $this->kecamatan->count_all(),
           "recordsFiltered" => $this->databarang->count_filtered(),
           "data" => $data
         );

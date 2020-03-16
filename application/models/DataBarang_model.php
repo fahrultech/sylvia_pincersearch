@@ -33,7 +33,7 @@ class DataBarang_model extends CI_Model
             $i++;
         }
         if(isset($_POST['order'])){
-            $this->db->order_by($this->columnOrder[$_POST['ordeer']['0']['column']], $_POST['order']['0']['dir']);
+            $this->db->order_by($this->columnOrder[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         }else if(isset($this->order)){
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);

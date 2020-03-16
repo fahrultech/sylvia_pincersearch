@@ -17,6 +17,8 @@ class ImportData extends CI_Controller{
         $this->load->view("importdata");
         $this->load->view("footer");
     }
+
+    //untuk filter atau menghapus nilai yang sama pada array
     function unique_multidim_array($array, $key) {
         $temp_array = array();
         $i = 0;
