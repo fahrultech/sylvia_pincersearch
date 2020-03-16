@@ -17,6 +17,7 @@ class ImportData_model extends CI_Model
         $query = $this->db->get();
         return $query->num_rows();
     }
+    
     function insertBarang($data){
         $barangMasuk = 0;
         $barangTidakMasuk = 0;

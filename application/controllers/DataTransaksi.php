@@ -26,13 +26,12 @@ class DataTransaksi extends CI_Controller{
            $row[] = tgl_indo($li->tanggal);
            $row[] = $li->noInvoice;
            $row[] = '<div style="text-align:center">
-                      <button onClick="editAlatTangkap('."'$li->idTransaksi'".')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-xs btn-danger" onClick="hapusAlatTangkap('."'$li->idTransaksi'".')"><i class="fa fa-trash"></i></button>
+                      <button onClick="editTransaksi('."'$li->idTransaksi'".')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-xs btn-danger" onClick="hapusTransaksi('."'$li->idTransaksi'".')"><i class="fa fa-trash"></i></button>
                     </div>';
            $data[] = $row;
         }
         $output = array("draw" => $_POST['draw'],
-          //"recordsTotal" => $this->kecamatan->count_all(),
           "recordsFiltered" => $this->datatransaksi->count_filtered(),
           "data" => $data
         );
