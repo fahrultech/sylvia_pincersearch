@@ -37,4 +37,20 @@ class DataBarang extends CI_Controller{
         );
         echo json_encode($output);
     }
+    function editBarang($id){
+        $data = $this->DataBarang_model->getById($id);
+        echo json_encode($data);
+    }
+    function updateBarang(){
+        $data = array(
+            'kodeBarang' => $this->input->post('kodeBarang'),
+            'namaBarang' => $this->input->post('namaBarang')
+        );
+        $this->DataBarang_model->update(array('idBarang' => $this->input->post('idBarang')),$data);
+        echo json_encode(array("status" => TRUE));
+    }
+    function hapusBarang($id){
+        $this->DataBarang_model->deleteById($id);
+        echo json_encode(array("status" => TRUE));
+    }
 }

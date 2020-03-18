@@ -38,9 +38,85 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- end row -->
         </div> <!-- container -->
     </div> <!-- content -->
+    <div id="modalDataBarang" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Modal Heading</h4>
+                </div>
+                <div class="modal-body form">
+                <form action="" class="form-horizontal">
+                    <div class="form-group row">
+                        <input type="text" name="idBarang" hidden>
+                        <label class="col-form-label col-3" for="">Kode Barang</label>
+                        <div class="col-8">
+                            <input class="form-control" type="text" name="kodeBarang">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-3" for="">Nama Barang</label>
+                        <div class="col-8">
+                            <input class="form-control" type="text" name="namaBarang">
+                        </div>
+                    </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button onClick="update()" type="button" class="btn btn-primary waves-effect waves-light">Save changes</button>
+                </div>
+            
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <?php $this->view('footer'); ?>
     <script>
         let table;
+        update = () => {
+            $.ajax({
+                url : "databarang/updateBarang",
+                type : "POST",
+                data : $('form').serialize(),
+                dataType : "JSON",
+                success : function(data){
+                    if(data.status){
+                        $('#modalDataBarang').modal('hide');
+                        table.ajax.reload();
+                    }
+                }
+            })
+        }
+        hapusBarang = id => {
+                if(confirm("Apakah Anda Yakin Akan Menghapus Data Ini")){
+                    $.ajax({
+                    url : `databarang/hapusbarang/${id}`,
+                    type: "POST",
+                    dataType: "JSON",
+                    success : function(data){
+                        if(data.status){
+                            table.ajax.reload();
+                        }
+                    }
+                  })
+                }
+            }
+        editBarang = id => {
+            $('form')[0].reset();
+            $('.modal-title').text('Edit Barang');
+            $.ajax({
+               url : `databarang/editBarang/${id}`,
+               type : "GET",
+               dataType : "JSON",
+               success : function(data){
+                   console.log(data);
+                   $('[name="idBarang"]').val(data.idBarang);
+                   $('[name="kodeBarang"]').val(data.kodeBarang);
+                   $('[name="namaBarang"]').val(data.namaBarang);
+                   $('#modalDataBarang').modal('show');
+               }
+            });
+        }
         $(document).ready(function(){
             table = $('#tabelBarang').DataTable({
                 "processing" : true,
