@@ -54,4 +54,19 @@ class DataTransaksi_model extends CI_Model
         $query = $this->db->get();
         return $query->num_rows();
     }
+    function getById($id){
+        $this->db->from($this->table);
+        $this->db->where($this->id,$id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    function update($id, $data){
+        $this->db->update($this->table, $data, $id);
+        return $this->db->affected_rows();
+    }
+    function deleteById($id)
+    {
+        $this->db->where($this->id, $id);
+        $this->db->delete($this->table);
+    }
 }

@@ -37,4 +37,20 @@ class DataTransaksi extends CI_Controller{
         );
         echo json_encode($output);
     }
+    function editTransaksi($id){
+        $data = $this->DataTransaksi_model->getById($id);
+        echo json_encode($data);
+    }
+    function updateTransaksi(){
+        $data = array(
+            'tanggal' => $this->input->post('tanggal'),
+            'noInvoice' => $this->input->post('noInvoice')
+        );
+        $this->DataTransaksi_model->update(array('idTransaksi' => $this->input->post('idTransaksi')),$data);
+        echo json_encode(array("status" => TRUE));
+    }
+    function hapusTransaksi($id){
+        $this->DataTransaksi_model->deleteById($id);
+        echo json_encode(array("status" => TRUE));
+    }
 }

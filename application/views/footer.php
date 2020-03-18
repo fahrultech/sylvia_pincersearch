@@ -51,6 +51,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     autoclose: true,
                     todayHighlight: true
                 });
+                jQuery('[name="tanggal"]').datepicker({
+                    format: 'dd-MM-yyyy',
+                    autoclose: true,
+                    todayHighlight: true
+                });
             })
         </script>
     </body>
