@@ -28,8 +28,8 @@ class DataDetailTransaksi extends CI_Controller{
            $row[] = $li->kodeBarang;
            $row[] = $li->namaBarang;
            $row[] = '<div style="text-align:center">
-                      <button onClick="editAlatTangkap('."'$li->idDetailTransaksi'".')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-xs btn-danger" onClick="hapusAlatTangkap('."'$li->idDetailTransaksi'".')"><i class="fa fa-trash"></i></button>
+                      <button onClick="editDetailTransaksi('."'$li->idDetailTransaksi'".')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-xs btn-danger" onClick="hapusDetailTransaksi('."'$li->idDetailTransaksi'".')"><i class="fa fa-trash"></i></button>
                     </div>';
            $data[] = $row;
         }
