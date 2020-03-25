@@ -19,7 +19,6 @@ class DataDetailTransaksi_model extends CI_Model
         $this->db->select('idDetailTransaksi,tanggal, detailtransaksi.noInvoice, detailtransaksi.kodeBarang, namaBarang');
         $this->db->from($this->table);
         $this->db->join('barang','barang.kodeBarang = detailtransaksi.kodeBarang');
-        $this->db->join('transaksi','transaksi.noinvoice = detailtransaksi.noinvoice');
         $i = 0;
         foreach($this->columnSearch as $item){
             if($_POST['search']['value']){

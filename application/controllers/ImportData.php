@@ -57,7 +57,8 @@ class ImportData extends CI_Controller{
                     );
                     $detailTransaksi[] = array(
                         'noInvoice' => $noinvoice,
-                        'kodeBarang' => $kodebarang
+                        'kodeBarang' => $kodebarang,
+                        'tanggal' => $tanggal
                     );
                 }
             }
