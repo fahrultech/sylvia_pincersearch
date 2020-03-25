@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <footer class="footer text-right">
-                    2017 - 2018 © SYILVIA WINDY KHARISMA PUTRI
+                    2020© SYILVIA WINDY KHARISMA PUTRI
                 </footer>
             </div>
             <!-- ============================================================== -->
