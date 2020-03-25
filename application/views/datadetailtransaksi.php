@@ -11,9 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Data Transaksi</h4>
+                        <h4 class="page-title float-left">Detail Data Transaksi</h4>
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item active">Data Transaksi</li>
+                            <li class="breadcrumb-item active">Detail Data Transaksi</li>
                         </ol>
                         <div class="clearfix"></div>
                     </div>
