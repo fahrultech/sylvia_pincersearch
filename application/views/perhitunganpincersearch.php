@@ -46,8 +46,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                             <div class="form-group row">
                                 <label for="minconfidence" class="col-form-label col-2">Min Confidence</label>
-                                <div class="col-4">
-                                    <input type="text" class="form-control" name="minconfidence">
+                                <div class="col-4 input-group">
+                                    <input type="text" class="form-control" name="minconfidence"> 
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="mdi mdi-percent"></i></span>
+                                    </div>
                                 </div>
                             </div>
                             <button class="btn btn-primary" type="submit">Hitung</button>
