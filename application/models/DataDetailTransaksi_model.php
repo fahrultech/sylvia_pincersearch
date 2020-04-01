@@ -6,7 +6,7 @@ class DataDetailTransaksi_model extends CI_Model
 {
     public $table = 'detailtransaksi';
     public $id = 'idDetailTransaksi';
-    public $order = array('tanggal' => 'asc');
+    public $order = array('noInvoice' => 'asc');
     public $columnOrder = array('tanggal,noInvoice');
     public $columnSearch = array('noInvoice');
 

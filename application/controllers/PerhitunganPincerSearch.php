@@ -2,10 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class PerhitunganPincerSearch extends CI_Controller{
+    private $mfcs = array();
+    private $mfs = array();
+    private $c1 = array();
+    private $infrequent = array();
     function __construct(){
         parent::__construct();
         if (!isset($this->session->userdata['username'])) {
-			redirect(base_url("login"));
+          redirect(base_url("login"));
         }
         $this->load->model('PerhitunganPincerSearch_model');
         $this->load->model('DataBarang_model');
@@ -20,75 +24,156 @@ class PerhitunganPincerSearch extends CI_Controller{
         $data = $this->PerhitunganPincerSearch_model->getAll();
         echo json_encode($data);
     }
-    function getCandidateSetOne(){
-      
+    function joinProcedure($db=array()){
+      $dataItems = array();
+      for($i=0;$i<count($db)-1;$i++){
+        for($j=$i+1;$j<count($db);$j++){
+          if(count(array_intersect($db[$i],$db[$j])) === $freq-1){
+           $dataItems[] = $this->removeDupplicateArray(array_merge($db[$i],$b[$j]));
+          }
+       }
+      }
+      return $this->removeDupplicateMultiDimArray($dataItems);
+    }
+    function frequentUpdate($frequent,$initDataBarang = array(),$datatransaksi,$minsupport,$last=array()){
+       $dataC = array();
+       $nextDataBarang = array();
+       $infrequentItems = array();
+       for($i=0;$i<count($initDataBarang);$i++){
+        $row = array();
+        $count = 0;
+        for($j=0;$j<count($datatransaksi);$j++){
+          $ct = count(array_diff($initDataBarang[$i],$datatransaksi[$j]["kodeBarang"]));
+          if($ct === 0){
+            $count++;
+          }
+        }
+        if($count >= $minsupport){
+          $row[] = $initDataBarang[$i];
+          $row[] = $count;
+          $dataC[] = $row;
+          $nextDataBarang[] = $initDataBarang[$i];
+        }else{
+          $rw = array();
+          $rw[] = $initDataBarang[$i];
+          $infrequentItems[] = $initDataBarang[$i];
+        }
+       }
+       $res = $this->checkNextFrequent($frequent,$nextDataBarang,$datatransaksi,$minsupport);
+       $ses = $this->getMFCS($this->infrequent);
+       return $res;
+      //  if(count($res) === 0){
+      //   return $last;
+      //  }else{
+      //     $last = $res;
+      //     $nextD = array();
+      //     foreach($res as $r){
+      //       $nextD[] = $r[0];
+      //     }
+      //     $frequent +=1;
+      //   return $this->frequentUpdate($frequent,$nextD,$datatransaksi,$minsupport,$last); 
+      //  }
+    }
+    function checkNextFrequent($freq,$dataBarang, $datatransaksi,$minsupport){
+       $dataItems = array();
+       $newDataItems = array();
+       $nextFrequentData = array();
+       $infrequentItems = array();
+       for($i=0;$i<count($dataBarang)-1;$i++){
+         for($j=$i+1;$j<count($dataBarang);$j++){
+           if(count(array_intersect($dataBarang[$i],$dataBarang[$j])) === $freq-1){
+            $dataItems[] = $this->removeDupplicateArray(array_merge($dataBarang[$i],$dataBarang[$j]));
+           }
+        }
+       }
+       $newDataItems = $this->removeDupplicateMultiDimArray($dataItems);
+       for($i=0;$i<count($newDataItems);$i++){
+         if(count($newDataItems[$i])>1){
+          $count = 0;
+          for($j=0;$j<count($datatransaksi);$j++){
+            $ct =  count(array_diff($newDataItems[$i],$datatransaksi[$j]["kodeBarang"]));
+            if($ct === 0){
+               $count++;
+            }
+         }
+         if($count >= $minsupport){
+           $row = array();
+           $row[] = $newDataItems[$i];
+           $row[] = $count;
+           $nextFrequentData[] = $row;
+          }else{
+            $infrequentItems[] =$newDataItems[$i];
+          }
+         }
+       }
+       
+       $this->infrequent = $this->removeDupplicateMultiDimArray($infrequentItems); 
+       return $this->removeDupplicateMultiDimArray($infrequentItems);
+       //return $this->removeMultiDupplicateMultiDimArray($infrequentItems);
     }
     function getByDate(){
         $tglawal = $this->input->post('tglawal');
         $tglakhir = $this->input->post('tglakhir');
+        $minsupport = $this->input->post('minsupport');
         $dataDetailTransaksi = $this->PerhitunganPincerSearch_model->getDetailTransactionByDate($tglawal, $tglakhir);
         $detailTransaksiArray = array();
-        $tempDataBarang = array();
-        $tempC2Data = array();
-        $dataC1 = array();
-        $dataC2 = array();
+        $tempmfcs = array();
         $no=0;
         foreach($dataDetailTransaksi as $ddt){
           $row = array();
           $row["noInvoice"] = $ddt->noInvoice;
           $row["kodeBarang"] = [$ddt->kodeBarang];
           $idx = array_search($ddt->noInvoice,array_column($detailTransaksiArray,'noInvoice')); 
-          if($idx == false){
+          if($idx === false){
             $detailTransaksiArray[] = $row;
           }else{
             array_push($detailTransaksiArray[$idx]['kodeBarang'],$ddt->kodeBarang);
           }
-          $tempDataBarang[] = $ddt->kodeBarang;
+          $r=array();
+          $r[]=$ddt->kodeBarang;
+          $tempmfcs[] = $ddt->kodeBarang;
+          $this->c1[] = $r;
           $no++;
         }
-        $tempDataBarang = array_unique($tempDataBarang);
-        foreach($tempDataBarang as $tmp){
-          $count =0;
-          foreach($dataDetailTransaksi as $ddt){
-            if($tmp === $ddt->kodeBarang){
-               $count++;
-            }
-          }
-          if($count > 3){
-            $dataC1[] = array("kodebarang" => $tmp, "jumlah" => $count);
-          }
-        }
-        for($i=0;$i<count($dataC1)-1;$i++){
-          for($j=$i+1;$j<count($dataC1);$j++){
-            $row = array();
-            $row[]= $dataC1[$i]['kodebarang'];
-            $row[]= $dataC1[$j]['kodebarang'];
-            $tempC2Data[] = $row;
-          }
-        }
-        for($i=0;$i<count($tempC2Data);$i++){
-          $count = 0;
-          $row = array();
-          for($j=0;$j<count($detailTransaksiArray);$j++){
-            $ct = count(array_diff($tempC2Data[$i],$detailTransaksiArray[$j]["kodeBarang"]));
-            if($ct === 0){
-              $count++;
-            }
-          }
-          if($count > 2){
-            $row["item"] = $tempC2Data[$i];
-            $row["jumlah"] = $count;
-            $dataC2[] = $row;
-          }
-        }
-        $dataBarang = $this->DataBarang_model->getAll();
-        echo json_encode($dataC2);
+        
+        $this->mfcs[] = $this->removeDupplicateArray($tempmfcs);
+        echo json_encode($this->frequentUpdate($frequent=1,$this->removeDupplicateMultiDimArray($this->c1),$detailTransaksiArray,$minsupport));
     }
-    function getMFCS(){
-      $MFCS = [[1,2,3,4,5,6]];
-      $iF = [[1,6],[3,6]];
+    function removeDupplicateArray($db=array()){
+      for($i=0;$i<count($db)-1;$i++){
+        for($j=$i+1;$j<count($db);$j++){
+          if($db[$i] === $db[$j]){
+            array_splice($db,$j,1);
+          }
+        }
+      }
+      return $db;
+    }
+    function removeDupplicateMultiDimArray($db=array()){
+      for($i=0;$i<count($db)-1;$i++){
+        for($j=$i+1;$j<count($db);$j++){
+           if(count(array_diff($db[$i],$db[$j]))===0){
+            array_splice($db,$j,1); 
+           }
+        }
+      }
+      return $db;
+    }
+    function removeMultiDupplicateMultiDimArray($db=array()){
+      for($i=0;$i<count($db)-1;$i++){
+        for($j=$i+1;$j<count($db);$j++){
+           if(count(array_diff($db[$i][0],$db[$j][0]))===0){
+            array_splice($db,$j,1); 
+           }
+        }
+      }
+      return $db;
+    }
+    function getMFCS($iF){
+      $MFCS = array();
+      $MFCS = $this->mfcs;
+      //$iFf = [[1,6],[3,6]];
       $deleteMFCS = array();
-      
       for($i=0;$i<count($iF);$i++){
         for($j=0;$j<count($MFCS);$j++){
           if(count(array_diff($iF[$i],$MFCS[$j])) == 0){
@@ -100,36 +185,36 @@ class PerhitunganPincerSearch extends CI_Controller{
                $st = array();
                $st = $tempMFCS;
                array_splice($st,$key,1);
-               if(count($MFCS) == 0){
-                  $MFCS[] = $st;
-               }else{
-                 for($l=0;$l<count($MFCS);$l++){
-                  if(count(array_diff($st,$MFCS[$l])) !== 0){
-                    $MFCS[] = $st;
-                  }else{
-                    if(count($st) != count($MFCS[$l])){
-                      $deleteMFCS[] = $st;
-                    }
-                  }
-                 }
-               }
+              //  print_r($st);
+              //  echo "------";
+               $MFCS[] = $st;
+              //  if(count($MFCS) == 0){
+              //     $MFCS[] = $st;
+              //  }else{
+              //    for($l=0;$l<count($MFCS);$l++){
+              //     if(count(array_diff($st,$MFCS[$l])) !== 0){
+              //       $MFCS[] = $st;
+              //     }else{
+              //       if(count($st) != count($MFCS[$l])){
+              //         $deleteMFCS[] = $st;
+              //       }
+              //     }
+              //    }
+              //  }
             }
+            print_r($MFCS);
+            echo "------";
           }
         }
       }
-      function removeMFCSItem($rm,$mfcs){
-         for($i=0;$i<count($rm);$i++){
-           $k = array_search($rm[$i],$mfcs);
-           array_splice($mfcs,$k,1);
-         }
-         return $mfcs;
-      }
-      $MFCS = removeMFCSItem($deleteMFCS,$MFCS);
-      for($i=0;$i<count($MFCS);$i++){
-        for($j=0;$j<count($MFCS[$i]);$j++){
-          echo $MFCS[$i][$j];
-        }
-        echo "</br>";
-      }
+      // function removeMFCSItem($rm,$mfcs){
+      //    for($i=0;$i<count($rm);$i++){
+      //      $k = array_search($rm[$i],$mfcs);
+      //      array_splice($mfcs,$k,1);
+      //    }
+      //    return $mfcs;
+      // }
+      // $MFCS = removeMFCSItem($deleteMFCS,$MFCS);
+      return $this->removeDupplicateMultiDimArray($MFCS);
     }
 }
