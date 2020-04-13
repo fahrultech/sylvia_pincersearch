@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          "minconfidence" : document.querySelector('[name="minconfidence"]').value
      }
      $.ajax({
-         url : "perhitunganpincersearch/getbydate",
+         url : "PerhitunganPincerSearch/getByDate",
          type: "POST",
          data : data,
          dataType: "JSON",
