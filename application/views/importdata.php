@@ -86,7 +86,7 @@ $(document).ready(function(){
     $('#importbarang').on('submit', function(event){
 		event.preventDefault();
 		$.ajax({
-			url:"importData/import",
+			url:"ImportData/import",
 			method:"POST",
 			data:new FormData(this),
 			contentType:false,
