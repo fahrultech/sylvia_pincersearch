@@ -104,6 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          success : function(data){
             result = [];
             let table = "";
+            $('tbody').empty();
             for(let i=0;i<data.length;i++){
                 let antecedent="";
                 let consequent="";
