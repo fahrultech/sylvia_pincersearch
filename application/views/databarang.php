@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         let table;
         update = () => {
             $.ajax({
-                url : "databarang/updateBarang",
+                url : "DataBarang/updateBarang",
                 type : "POST",
                 data : $('form').serialize(),
                 dataType : "JSON",
@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         hapusBarang = id => {
                 if(confirm("Apakah Anda Yakin Akan Menghapus Data Ini")){
                     $.ajax({
-                    url : `databarang/hapusbarang/${id}`,
+                    url : `DataBarang/hapusBarang/${id}`,
                     type: "POST",
                     dataType: "JSON",
                     success : function(data){
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('form')[0].reset();
             $('.modal-title').text('Edit Barang');
             $.ajax({
-               url : `databarang/editBarang/${id}`,
+               url : `DataBarang/editBarang/${id}`,
                type : "GET",
                dataType : "JSON",
                success : function(data){
@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 "serverSide" : true,
                 "order" : [],
                 "ajax" :{
-                    "url" : "<?php echo site_url('databarang/ajax_list');?>",
+                    "url" : "<?php echo site_url('DataBarang/ajax_list');?>",
                     "type" : "POST"
                 },
                 "columnDefs": [{
