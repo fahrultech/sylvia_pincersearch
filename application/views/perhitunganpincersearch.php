@@ -55,9 +55,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                             <button class="btn btn-primary" type="submit">Hitung</button>
                         </form>
+                        <div class="row">
+                <div class="col-lg-12">
+                   <table class="table table-striped table-condensed">
+                      <thead>
+                        <tr>
+                           <th>No</th>
+                           <th>Rules</th>
+                           <th>Support XuY</th>
+                           <th>Support X</th>
+                           <th>Confidence</th>
+                           <th>Support Y</th>
+                           <th>Lift Ratio</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                   </table>
+                </div>
+            </div>
                     </div>
                 </div>
             </div>
+           
             <!-- end row -->
         </div> <!-- container -->
     </div> <!-- content -->
@@ -83,66 +102,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          data : data,
          dataType: "JSON",
          success : function(data){
-             const datatransaksi = data.datatransaksi;
-             const databarang = data.databarang;
-             console.log(data);
-             for(let i=0;i<datatransaksi.length;i++){
-                 const isFind = dataTransaksiArray.find(dt => dt.noInvoice === datatransaksi[i].noInvoice);
-                 tempDB.push(datatransaksi[i].kodeBarang);
-                 
-                 if(!isFind){
-                    const obj = {
-                        noInvoice : datatransaksi[i].noInvoice,
-                        items : [datatransaksi[i].kodeBarang]
-                    }
-                    dataTransaksiArray.push(obj);
-                 }else{
-                     for(let j=0;j<dataTransaksiArray.length;j++){
-                         if(datatransaksi[i].noInvoice === dataTransaksiArray[j].noInvoice){
-                             dataTransaksiArray[j].items.push(datatransaksi[i].kodeBarang);
-                         }
-                     }
-                 }
-             }
-             MFCS = [...new Set(tempDB)];
-             databarang.forEach(db => {
-                let count = 0;
-                datatransaksi.forEach(dt => {
-                   if(db.kodeBarang === dt.kodeBarang){
-                       count++;
-                   }
-                });
-                const obj = {
-                    kodeBarang : db.kodeBarang,
-                    jumlah : count
+            result = [];
+            let table = "";
+            for(let i=0;i<data.length;i++){
+                let antecedent="";
+                let consequent="";
+                for(let j=0;j<data[i][0].length;j++){
+                    antecedent +=data[i][0][j];
+                    j < data[i][0].length-1 ? antecedent += "," : "";
                 }
-                if(count > 3){
-                  support.push(obj);
+                for(let j=0;j<data[i][1].length;j++){
+                    consequent +=data[i][1][j];
+                    j < data[i][1].length-1 ? consequent += "," : "";
                 }
-             });
-             for(let i=0;i<support.length-1;i++){
-                 dt = [];
-                 dt.push(support[i].kodeBarang);
-                 dt.push(support[i+1].kodeBarang);
-                 itemPair.push({"item" : dt,"support":0});
-             }
-             Array.prototype.contains = function(array) {
-                return array.every(function(item) {
-                    return this.indexOf(item) !== -1;
-                }, this);
-             }
-             itemPair.forEach((ip,index) => {
-                dataTransaksiArray.forEach(dta => {
-                    if(dta.items.contains(ip.item)){
-                        itemPair[index].support++;
-                    }
-                })
-              })
-             console.log(`Jumlah Transaksi : ${datatransaksi.length}`)
-             support.sort();
-             console.log(dataTransaksiArray);
-             console.log(support);
-             console.log(itemPair);
+              result.push(`${antecedent} => ${consequent}`);
+              table += 
+                `<tr>
+                  <td>${i+1}</td>
+                  <td>${result[i]}</td>
+                  <td>${data[i][2]}</td>    
+                  <td>${data[i][3]}</td>
+                  <td>${data[i][4]}</td>
+                  <td>${data[i][5]}</td>
+                  <td>${data[i][6]}</td>
+                </tr>`;
+            }
+            $('tbody').append(table);
+            
          }
      })
   })

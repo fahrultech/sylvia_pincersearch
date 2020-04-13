@@ -60,6 +60,12 @@ class DataBarang_model extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+    function getByKodeBarang($kd){
+        $this->db->from($this->table);
+        $this->db->where("kodeBarang",$kd);
+        $query = $this->db->get();
+        return $query->row();
+    }
     function update($id, $data){
         $this->db->update($this->table, $data, $id);
         return $this->db->affected_rows();
