@@ -60,6 +60,13 @@ class DataTransaksi_model extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+    function getInvoiceNo($id){
+        $this->db->select('noInvoice');
+        $this->db->from($this->table);
+        $this->db->where($this->id,$id);
+        $query = $this->db->get();
+        return $query->result();
+    }
     function update($id, $data){
         $this->db->update($this->table, $data, $id);
         return $this->db->affected_rows();

@@ -8,6 +8,7 @@ class DataTransaksi extends CI_Controller{
 			redirect(base_url("login"));
         }
         $this->load->model('DataTransaksi_model');
+        $this->load->model('DataDetailTransaksi_model');
     }
     function index(){
         $this->load->view("header");
@@ -50,6 +51,8 @@ class DataTransaksi extends CI_Controller{
         echo json_encode(array("status" => TRUE));
     }
     function hapusTransaksi($id){
+        $noinvoice = $this->DataTransaksi_model->getInvoiceNo($id);
+        $this->DataDetailTransaksi_model->deleteByNoInvoice($noinvoice[0]->noInvoice);
         $this->DataTransaksi_model->deleteById($id);
         echo json_encode(array("status" => TRUE));
     }

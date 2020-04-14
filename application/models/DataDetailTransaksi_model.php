@@ -50,6 +50,18 @@ class DataDetailTransaksi_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    function deleteByNoInvoice($noinvoice){
+        $this->db->select($this->id);
+        $this->db->from($this->table);
+        $this->db->where('noInvoice',$noinvoice);
+        $query = $this->db->get();
+        if(!empty($query->result())){
+            $this->db->select($this->id);
+            $this->db->from($this->table);
+            $this->db->where('noInvoice',$noinvoice);
+            $this->db->delete($this->table);
+        }
+    }
     function count_filtered(){
         $this->_get_datatables_query();
         $query = $this->db->get();
