@@ -4,7 +4,7 @@ exit('No direct script access allowed');
 
 class DataTransaksi_model extends CI_Model
 {
-    public $table = 'datatransaksi';
+    public $table = 'transaksi';
     public $id = 'idTransaksi';
     public $order = array('tanggal' => 'asc');
     public $columnOrder = array('tanggal,noInvoice');

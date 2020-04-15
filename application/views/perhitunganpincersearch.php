@@ -56,6 +56,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <button class="btn btn-primary" type="submit">Hitung</button>
                         </form>
                         <div class="row">
+                        <div class="sk-fading-circle">
+                            <div class="sk-circle1 sk-circle"></div>
+                            <div class="sk-circle2 sk-circle"></div>
+                            <div class="sk-circle3 sk-circle"></div>
+                            <div class="sk-circle4 sk-circle"></div>
+                            <div class="sk-circle5 sk-circle"></div>
+                            <div class="sk-circle6 sk-circle"></div>
+                            <div class="sk-circle7 sk-circle"></div>
+                            <div class="sk-circle8 sk-circle"></div>
+                            <div class="sk-circle9 sk-circle"></div>
+                            <div class="sk-circle10 sk-circle"></div>
+                            <div class="sk-circle11 sk-circle"></div>
+                            <div class="sk-circle12 sk-circle"></div>
+                        </div>
                 <div class="col-lg-12">
                    <table class="table table-striped table-condensed">
                       <thead>
@@ -80,7 +94,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- end row -->
         </div> <!-- container -->
     </div> <!-- content -->
+    <script src="<?php echo base_url('assets/js/jquery.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/jquery.form.js')?>"></script>
 <script>
+  $('.sk-fading-circle').hide();
   document.querySelector('form').addEventListener('submit', e => {
      e.preventDefault();
      let support = [];
@@ -101,6 +118,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          type: "POST",
          data : data,
          dataType: "JSON",
+         beforeSend:function(){
+                $('.sk-fading-circle').show();
+            },
+            complete : function(){
+                $('.sk-fading-circle').hide();
+            },
          success : function(data){
             result = [];
             let table = "";

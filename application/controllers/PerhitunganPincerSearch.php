@@ -8,6 +8,7 @@ class PerhitunganPincerSearch extends CI_Controller{
     private $infrequent = array();
     private $totalTransaksi;
     private $datatransaksi;
+    private $sosupport; 
     function __construct(){
         parent::__construct();
         if (!isset($this->session->userdata['username'])) {
@@ -88,6 +89,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         $this->totalTransaksi = count($detailTransaksiArray);
         $this->datatransaksi = $detailTransaksiArray;
         $this->mfcs[] = $this->removeDupplicateArray($tempmfcs);
+        $this->sosupport = ($this->totalTransaksi * $minsupport)/100;
         echo json_encode($this->running($this->mfcs,$transaksi,$this->removeDupplicateArray($this->c1)));
     }
     function removeDupplicateArray($db=array()){
@@ -204,7 +206,7 @@ class PerhitunganPincerSearch extends CI_Controller{
             $support++;
           }
         }
-        if($support >= 1){
+        if($support >= $this->sosupport){
           $frequent[] = $m;
         }
       } 
@@ -221,7 +223,7 @@ class PerhitunganPincerSearch extends CI_Controller{
             $support++;
           }
         }
-        if($support < 1){
+        if($support < $this->sosupport){
           $infrequent[] = $m;
         }
       } 
