@@ -128,6 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             result = [];
             let table = "";
             $('tbody').empty();
+            console.log(data);
             for(let i=0;i<data.length;i++){
                 let antecedent="";
                 let consequent="";

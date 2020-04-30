@@ -9,6 +9,7 @@ class PerhitunganPincerSearch extends CI_Controller{
     private $totalTransaksi;
     private $datatransaksi;
     private $sosupport; 
+    private $minConfidence;
     function __construct(){
         parent::__construct();
         if (!isset($this->session->userdata['username'])) {
@@ -62,6 +63,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         $tglawal = $this->input->post('tglawal');
         $tglakhir = $this->input->post('tglakhir');
         $minsupport = $this->input->post('minsupport');
+        $this->minConfidence = $this->input->post('minconfidence');
         $dataDetailTransaksi = $this->PerhitunganPincerSearch_model->getDetailTransactionByDate($tglawal, $tglakhir);
         $detailTransaksiArray = array();
         $transaksi = array();
@@ -126,6 +128,7 @@ class PerhitunganPincerSearch extends CI_Controller{
       $i=0;
       $mfs = array();
       while(count($cdata) > 0){
+      //while($i < 2){
         $frequent = $this->getFrequentItems($cdata,$db);
         $infrequent = $this->getInFrequentItems($cdata,$db);
         $mfs = $this->getMFS($mfcs,$db);
@@ -139,6 +142,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         count($mfs) > 0 ? $cdata = $this->newPrune($frequent,$mfcs) : $cdata=$cdata;
         $i++;
       }
+      
       return $this->getDetailBarang($this->countSupport($this->getAssociationRule($mfs)));
     }
     function countSupport($data){
@@ -163,7 +167,7 @@ class PerhitunganPincerSearch extends CI_Controller{
          $supportXPercentage = round(($supportx/$this->totalTransaksi)*100,1);
          $supportYPercentage = round(($supporty/$this->totalTransaksi)*100,1);
          $confidence = round(($supportxy/$supportx)*100,1);
-         $liftRatio = round($confidence/40,2);
+         $liftRatio = round($confidence/$this->minConfidence,2);
          $hasil[] = [$dt,$supportXYPercentage,$supportXPercentage,$confidence,$supportYPercentage,$liftRatio];
        }
        return $hasil;
