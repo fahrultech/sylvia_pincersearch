@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="sk-circle12 sk-circle"></div>
                         </div>
                 <div class="col-lg-12">
-                   <table class="table table-striped table-condensed">
+                   <table id="rule" class="table table-striped table-condensed">
                       <thead>
                         <tr>
                            <th>No</th>
@@ -87,17 +87,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    </table>
                 </div>
             </div>
-                    </div>
-                </div>
+            <div class="log" style="margin: 0 auto">
+               <div class="col-md-6">
+               </div>
             </div>
+            <div id="column-chart"></div>
+        </div>
+    </div>
+</div>
+
            
             <!-- end row -->
         </div> <!-- container -->
     </div> <!-- content -->
     <script src="<?php echo base_url('assets/js/jquery.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/jquery.form.js')?>"></script>
+    <!-- Google Charts js -->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+    
+    
+  </script>
+    
 <script>
   $('.sk-fading-circle').hide();
+  
   document.querySelector('form').addEventListener('submit', e => {
      e.preventDefault();
      let support = [];
@@ -106,6 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      let tempDB = [];
      let MFCS = [];
      let infrequent = [];
+     
 
      const data = {
          "tglawal" : moment(document.querySelector('[name="tglawal"]').value).format("YYYY-MM-DD"),
@@ -124,38 +140,185 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             complete : function(){
                 $('.sk-fading-circle').hide();
             },
-         success : function(data){
+         success : function(data){ 
+            var column_data = [
+            ['Rule', 'Confidence', 'Lift Ratio', 'Support'],];
             result = [];
             let table = "";
-            $('tbody').empty();
-            console.log(data);
-            for(let i=0;i<data.length;i++){
+            $('#rule tbody').empty();
+            $('.log .col-md-6').empty();
+            console.log(data[0][1].frequent);
+            for(let i=0;i<data[1].length;i++){
+                let rule_temp = [];
                 let antecedent="";
                 let consequent="";
-                for(let j=0;j<data[i][0].length;j++){
-                    antecedent +=data[i][0][j];
-                    j < data[i][0].length-1 ? antecedent += "," : "";
+                for(let j=0;j<data[1][i][0].length;j++){
+                    antecedent +=data[1][i][0][j];
+                    j < data[1][i][0].length-1 ? antecedent += "," : "";
                 }
-                for(let j=0;j<data[i][1].length;j++){
-                    consequent +=data[i][1][j];
-                    j < data[i][1].length-1 ? consequent += "," : "";
+                for(let j=0;j<data[1][i][1].length;j++){
+                    consequent +=data[1][i][1][j];
+                    j < data[1][i][1].length-1 ? consequent += "," : "";
                 }
               result.push(`${antecedent} => ${consequent}`);
               table += 
                 `<tr>
                   <td>${i+1}</td>
                   <td>${result[i]}</td>
-                  <td>${data[i][2]}</td>    
-                  <td>${data[i][3]}</td>
-                  <td>${data[i][4]}</td>
-                  <td>${data[i][5]}</td>
-                  <td>${data[i][6]}</td>
+                  <td>${data[1][i][2]}</td>    
+                  <td>${data[1][i][3]}</td>
+                  <td>${data[1][i][4]}</td>
+                  <td>${data[1][i][5]}</td>
+                  <td>${data[1][i][6]}</td>
                 </tr>`;
+                rule_temp.push(`Rule ${i+1}`);
+                rule_temp.push(data[1][i][4]);
+                rule_temp.push(data[1][i][6]);
+                rule_temp.push(data[1][i][5]);
+                column_data.push(rule_temp);
             }
-            $('tbody').append(table);
-            
+            let sh="";
+            for(let j=0;j<data[0].length;j++){
+                let gh="";
+                gh += `<h4 style="text-align:center">Pass Ke : ${data[0][j].k}</h4>`
+                if(data[0][j].frequent.length > 0){
+                    gh += `<table class="table table-striped table-condensed">
+                        <thead>
+                         <tr>
+                           <th>No</th>
+                           <th style="text-align:center">Data Frequent Item</th>
+                         </tr>
+                        </thead><tbody>`
+
+                    for(let k=0;k<data[0][j].frequent.length;k++){
+                      gh += `<tr>
+                              <td>${k+1}</td>
+                              <td>${data[0][j].frequent[k]}</td>
+                             </tr>`
+                    }
+                    gh += `</tbody></table>`
+                }
+                if(data[0][j].infrequent.length > 0){
+                    gh += `<table class="table table-striped table-condensed">
+                        <thead>
+                         <tr>
+                           <th>No</th>
+                           <th style="text-align:center">InFrequent Item</th>
+                         </tr>
+                        </thead><tbody>`
+
+                for(let k=0;k<data[0][j].infrequent.length;k++){
+                 gh += `<tr>
+                           <td>${k+1}</td>
+                           <td>${data[0][j].infrequent[k]}</td>
+                        </tr>`
+                 }
+                 gh += `</tbody></table>`
+                }
+                if(data[0][j].mfs.length > 0){
+                    gh += `<table class="table table-striped table-condensed">
+                        <thead>
+                         <tr>
+                           <th>No</th>
+                           <th style="text-align:center">MFS</th>
+                         </tr>
+                        </thead><tbody>`
+
+                for(let k=0;k<data[0][j].mfs.length;k++){
+                 gh += `<tr>
+                           <td>${k+1}</td>
+                           <td>${data[0][j].mfs[k]}</td>
+                        </tr>`
+                 }
+                 gh += `</tbody></table>`
+                }
+                if(data[0][j].mfcs.length > 0){
+                    gh += `<table class="table table-striped table-condensed">
+                        <thead>
+                         <tr>
+                           <th>No</th>
+                           <th style="text-align:center">MFCS</th>
+                         </tr>
+                        </thead><tbody>`
+
+                for(let k=0;k<data[0][j].mfcs.length;k++){
+                 gh += `<tr>
+                           <td>${k+1}</td>
+                           <td>${data[0][j].mfcs[k]}</td>
+                        </tr>`
+                 }
+                 gh += `</tbody></table>`
+                }
+                if(data[0][j].cdata.length > 0){
+                    gh += `<table class="table table-striped table-condensed">
+                        <thead>
+                         <tr>
+                           <th>No</th>
+                           <th style="text-align:center">Data C${data[0][j].k+1}</th>
+                         </tr>
+                        </thead><tbody>`
+
+                for(let k=0;k<data[0][j].cdata.length;k++){
+                 gh += `<tr>
+                           <td>${k+1}</td>
+                           <td>${data[0][j].cdata[k]}</td>
+                        </tr>`
+                 }
+                 gh += `</tbody></table>`
+                }
+                
+                 sh += gh;
+            }
+            $('.log .col-md-6').append(sh);
+            $('#rule tbody').append(table);
+            google.charts.setOnLoadCallback(function() {drawChart(column_data,"Values",['#297ef6', '#e52b4c', '#32c861'])});
          }
-     })
+     });
   })
+   
+    google.charts.load('current', {packages: ['corechart']});
+    
+    function drawChart(data,axislabel,colors) {
+        var options = {
+            fontName: 'Open Sans',
+            height: 400,
+            fontSize: 13,
+            chartArea: {
+                left: '5%',
+                width: '90%',
+                height: 350
+            },
+            tooltip: {
+                textStyle: {
+                    fontName: 'Open Sans',
+                    fontSize: 14
+                }
+            },
+            vAxis: {
+                title: axislabel,
+                titleTextStyle: {
+                    fontSize: 14,
+                    italic: false
+                },
+                gridlines:{
+                    color: '#f5f5f5',
+                    count: 10
+                },
+                minValue: 0
+            },
+            legend: {
+                position: 'top',
+                alignment: 'center',
+                textStyle: {
+                    fontSize: 13
+                }
+            },
+            colors: colors
+        };
+      var ct = google.visualization.arrayToDataTable(data);
+      // Instantiate and draw the chart.
+      var chart = new google.visualization.ColumnChart(document.getElementById('column-chart'));
+      chart.draw(ct, options);
+    }
 </script>
                 

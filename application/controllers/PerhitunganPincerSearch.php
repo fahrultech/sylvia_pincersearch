@@ -40,6 +40,18 @@ class PerhitunganPincerSearch extends CI_Controller{
        }
        return $data;
     }
+    function ss($dat){
+        $cow = array();
+        foreach($dat as $dt){
+           $row = array();
+           foreach($dt as $d){
+            $db = $this->DataBarang_model->getByKodeBarang($d);
+            $row[] = $db->namaBarang;
+           }
+           $cow[] = $row;
+        }
+        return $cow;
+    }
     function getDetailBarang($res){
       $data = array();
       $no=0;
@@ -127,23 +139,39 @@ class PerhitunganPincerSearch extends CI_Controller{
     function running($mfcs=array(),$db=array(),$cdata=array()){
       $i=0;
       $mfs = array();
+      $log = array();
+      $frequent = array();
+      $log = [
+        array("k" => 0, 
+          "frequent" => [], 
+          "infrequent" => [], 
+          "mfcs" => count($mfcs) !== 0 ? $this->ss($mfcs) : $mfcs, 
+          "mfs" => [], 
+          "cdata" => count($cdata) !== 0 ? $this->ss($cdata) : $cdata)];
       while(count($cdata) > 0){
-      //while($i < 2){
+        $pass = array();
+        $pass["k"] = $i+1;
         $frequent = $this->getFrequentItems($cdata,$db);
+        $pass["frequent"] = count($frequent) !== 0 ? $this->ss($frequent) : $frequent;
         $infrequent = $this->getInFrequentItems($cdata,$db);
+        $pass["infrequent"] = count($infrequent) !== 0 ? $this->ss($infrequent) : $infrequent;
         $mfs = $this->getMFS($mfcs,$db);
+        $pass["mfs"] = count($mfs) !== 0 ? $this->ss($mfs) : $mfs;
         $tempFreq = $frequent;
         count($mfs) > 0 ? $frequent = $this->lprune($frequent,$mfs) : $frequent = $frequent;
         $mfcs = $this->removeMFCSSubset($this->sortByCount($this->getMFCS($infrequent,$mfcs)));
-        $cdata = $this->joinData($cdata);
+        $pass["mfcs"] = count($mfcs) !== 0 ? $this->ss($mfcs) : $mfcs;
+        $cdata = $this->joinData($frequent);
         if(count($tempFreq) !== count($frequent)){
           $this->recovery($frequent,$mfs);
         }
         count($mfs) > 0 ? $cdata = $this->newPrune($frequent,$mfcs) : $cdata=$cdata;
+        $pass["cdata"] = count($cdata) !== 0 ? $this->ss($cdata) : $cdata;
+        array_push($log,$pass);
         $i++;
       }
-      
-      return $this->getDetailBarang($this->countSupport($this->getAssociationRule($mfs)));
+      $ret = [$log, $this->getDetailBarang($this->countSupport($this->getAssociationRule($mfs)))];
+      return $ret;
     }
     function countSupport($data){
        $hasil = array();
@@ -168,7 +196,9 @@ class PerhitunganPincerSearch extends CI_Controller{
          $supportYPercentage = round(($supporty/$this->totalTransaksi)*100,1);
          $confidence = round(($supportxy/$supportx)*100,1);
          $liftRatio = round($confidence/$this->minConfidence,2);
-         $hasil[] = [$dt,$supportXYPercentage,$supportXPercentage,$confidence,$supportYPercentage,$liftRatio];
+         if($confidence >= $this->minConfidence){
+          $hasil[] = [$dt,$supportXYPercentage,$supportXPercentage,$confidence,$supportYPercentage,$liftRatio];
+         }
        }
        return $hasil;
     }
