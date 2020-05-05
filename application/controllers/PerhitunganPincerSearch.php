@@ -140,7 +140,6 @@ class PerhitunganPincerSearch extends CI_Controller{
       $i=0;
       $mfs = array();
       $log = array();
-      $frequent = array();
       $log = [
         array("k" => 0, 
           "frequent" => [], 
@@ -155,7 +154,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         $pass["frequent"] = count($frequent) !== 0 ? $this->ss($frequent) : $frequent;
         $infrequent = $this->getInFrequentItems($cdata,$db);
         $pass["infrequent"] = count($infrequent) !== 0 ? $this->ss($infrequent) : $infrequent;
-        $mfs = $this->getMFS($mfcs,$db);
+        $mfs = $this->getMFS($mfcs,$frequent);
         $pass["mfs"] = count($mfs) !== 0 ? $this->ss($mfs) : $mfs;
         $tempFreq = $frequent;
         count($mfs) > 0 ? $frequent = $this->lprune($frequent,$mfs) : $frequent = $frequent;
@@ -165,7 +164,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         if(count($tempFreq) !== count($frequent)){
           $this->recovery($frequent,$mfs);
         }
-        count($mfs) > 0 ? $cdata = $this->newPrune($frequent,$mfcs) : $cdata=$cdata;
+        count($mfs) > 0 ? $cdata = $this->newPrune($frequent,$mfcs) : $cdata;
         $pass["cdata"] = count($cdata) !== 0 ? $this->ss($cdata) : $cdata;
         array_push($log,$pass);
         $i++;

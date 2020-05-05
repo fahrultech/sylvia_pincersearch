@@ -147,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             let table = "";
             $('#rule tbody').empty();
             $('.log .col-md-6').empty();
-            console.log(data[0][1].frequent);
+            $('#column-chart').empty();
             for(let i=0;i<data[1].length;i++){
                 let rule_temp = [];
                 let antecedent="";
@@ -177,7 +177,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 rule_temp.push(data[1][i][5]);
                 column_data.push(rule_temp);
             }
-            let sh="";
+            if(data[1].length > 0){
+                let sh="";
             for(let j=0;j<data[0].length;j++){
                 let gh="";
                 gh += `<h4 style="text-align:center">Pass Ke : ${data[0][j].k}</h4>`
@@ -272,6 +273,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('.log .col-md-6').append(sh);
             $('#rule tbody').append(table);
             google.charts.setOnLoadCallback(function() {drawChart(column_data,"Values",['#297ef6', '#e52b4c', '#32c861'])});
+            }
          }
      });
   })
