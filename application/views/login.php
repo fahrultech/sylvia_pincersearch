@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <div class="form-group m-b-20 row">
                                                 <div class="col-12">
                                                     <label for="emailaddress">Username</label>
-                                                    <input class="form-control" type="text" name="username" id="username" required="" placeholder="Masukkan username">
+                                                    <input class="form-control" type="text" name="username" id="username" placeholder="Masukkan username">
                                                 </div>
                                             </div>
 
@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <div class="col-12">
                                                     <a href="page-recoverpw.html" class="text-muted pull-right"><small>Forgot your password?</small></a>
                                                     <label for="password">Password</label>
-                                                    <input class="form-control" type="password" name="password" required="" id="password" placeholder="Masukkan password">
+                                                    <input class="form-control" type="password" name="password" id="password" placeholder="Masukkan password">
                                                 </div>
                                             </div>
 

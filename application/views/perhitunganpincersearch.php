@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- ============================================================== -->
 <!-- Start right Content here -->
 <!-- ============================================================== -->
+<style>
+#tawal,#takhir,#msupport,#mconfidence{
+    display:none
+}
+</style>
 <div class="content-page">
     <!-- Start content -->
     <div class="content">
@@ -27,30 +32,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <label for="tglawal" class="col-form-label col-2">Tanggal Awal</label>
                                 <div class="col-4">
                                     <input type="text" class="form-control" name="tglawal">
+                                    <ul class="parsley-errors-list filled" id="tawal">
+                                        <li class="parsley-required">Tanggal Awal Kosong.</li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="tglakhir" class="col-form-label col-2">Tanggal Akhir</label>
                                 <div class="col-4">
                                     <input type="text" class="form-control" name="tglakhir">
+                                    <ul class="parsley-errors-list filled" id="takhir">
+                                        <li class="parsley-required">Tanggal Akhir Kosong.</li>
+                                    </ul>
                                 </div>
+                                
                             </div>
                             <div class="form-group row">
                                 <label for="minsupport" class="col-form-label col-2">Min Support</label>
-                                <div class="col-4 input-group">
-                                    <input type="text" class="form-control" name="minsupport">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="mdi mdi-percent"></i></span>
+                                <div class="col-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="minsupport">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="mdi mdi-percent"></i></span>
+                                        </div>
                                     </div>
+                                    <ul class="parsley-errors-list filled" id="msupport">
+                                        <li class="parsley-required">Min Support Kosong.</li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="minconfidence" class="col-form-label col-2">Min Confidence</label>
-                                <div class="col-4 input-group">
-                                    <input type="text" class="form-control" name="minconfidence"> 
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="mdi mdi-percent"></i></span>
+                                <div class="col-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="minconfidence"> 
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="mdi mdi-percent"></i></span>
+                                        </div>
                                     </div>
+                                    <ul class="parsley-errors-list filled" id="mconfidence">
+                                        <li class="parsley-required">Min Confidence Kosong.</li>
+                                    </ul>
                                 </div>
                             </div>
                             <button class="btn btn-primary" type="submit">Hitung</button>
@@ -105,6 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Google Charts js -->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="<?php echo base_url('assets/plugins/parsleyjs/parsley.min.js')?>"></script>
     <script>
     
     
@@ -129,7 +152,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          "minsupport" : document.querySelector('[name="minsupport"]').value,
          "minconfidence" : document.querySelector('[name="minconfidence"]').value
      }
-     $.ajax({
+     console.log(data.tglakhir);
+     if(data.tglawal === "Invalid date"){
+        $('#tawal').show();
+     }else {$('#tawal').hide();}
+     if(data.tglakhir === "Invalid date"){
+        $('#takhir').show();
+     }else{$('#takhir').hide();}
+     if(data.minsupport === ""){
+        $('#msupport').show();
+     }else{$('#msupport').hide();}
+     if(data.minconfidence === ""){
+        $('#mconfidence').show();
+     }else{$('#mconfidence').hide();}
+     if(data.tglawal !== "Invalid date" 
+        && data.tglakhir !== "Invalid date" 
+        && data.minsupport !== ""
+        && data.minconfidence !== ""){
+            $.ajax({
          url : "PerhitunganPincerSearch/getByDate",
          type: "POST",
          data : data,
@@ -177,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 rule_temp.push(data[1][i][5]);
                 column_data.push(rule_temp);
             }
-            if(data[1].length > 0){
+            //if(data[1].length > 0){
                 let sh="";
             for(let j=0;j<data[0].length;j++){
                 let gh="";
@@ -273,9 +313,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('.log .col-md-6').append(sh);
             $('#rule tbody').append(table);
             google.charts.setOnLoadCallback(function() {drawChart(column_data,"Values",['#297ef6', '#e52b4c', '#32c861'])});
-            }
+            //}
          }
      });
+        }
   })
    
     google.charts.load('current', {packages: ['corechart']});

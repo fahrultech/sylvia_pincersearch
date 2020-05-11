@@ -43,6 +43,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                Barang Tidak Masuk <span class="jumlahBarangTidakMasuk"></span> pcs
                             </div>
                           </div>
+                          <div class="dtmm" style="text-align:center">
+                            <div class="alert barangkosong alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                               File Tidak Ada
+                            </div>
+                          </div>
                         </div>
                         <form method="post" id="importbarang" enctype="multipart/form-data">
                             <div style="text-align:center" class="jumlahRow">
@@ -65,9 +73,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="sk-circle12 sk-circle"></div>
                         </div>
                             <div style="text-align:center;margin-top:40px">
-                            <input name="file" type="file" id="file" required accept=".xls, .xlsx">
-                            <button class="btn btn-sm btn-primary" type="submit">Simpan</button>
+                                <input name="file" type="file" id="file" accept=".xls, .xlsx">
+                                <button class="btn btn-sm btn-primary" type="submit">Simpan</button>
                             </div>
+                            
                         </form>
                     </div>
                 </div>
@@ -77,15 +86,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div> <!-- content -->
     <script src="<?php echo base_url('assets/js/jquery.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/jquery.form.js')?>"></script>
+    <script type="text/javascript" src="<?php echo base_url('assets/plugins/parsleyjs/parsley.min.js')?>"></script>
+
 <script>
 $('.sk-fading-circle').hide();
 $('.dm').hide();
 $('.dtm').hide();
+$('.dtmm').hide();
 $(document).ready(function(){
+    let isEmpty = $('input[name="file"]').val();
     $('.jumlahRow').hide();
     $('#importbarang').on('submit', function(event){
 		event.preventDefault();
-		$.ajax({
+        if(isEmpty !== "Kosong"){
+            $('.dtmm').show();
+        }else{
+           $.ajax({
 			url:"ImportData/import",
 			method:"POST",
 			data:new FormData(this),
@@ -103,6 +119,7 @@ $(document).ready(function(){
                 $('#file').val('');
                 $('.dm').show();
                 $('.dtm').show();
+                $('.dtmm').hide();
                 $('.jumlahBarangMasuk').text(JSON.parse(data).barangMasuk);
                 $('.jumlahBarangTidakMasuk').text(JSON.parse(data).barangTidakMasuk);
                 $('.barangmasuk').addClass('show');
@@ -112,6 +129,8 @@ $(document).ready(function(){
                 alert(error);
             }
 		})
+        }
+		
 	});
 })
 </script>

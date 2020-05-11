@@ -14,8 +14,11 @@ class Login extends CI_Controller{
     }
 
     function proses(){
-        $this->form_validation->set_rules('username','username', 'required|trim|xss_clean');
-        $this->form_validation->set_rules('password','password', 'required|trim|xss_clean');
+        
+        $this->form_validation->set_rules('username','username', 'required|trim|xss_clean', 
+               array('required' => 'Username Harus Diisi'));
+        $this->form_validation->set_rules('password','password', 'required|trim|xss_clean',
+               array('required' => 'Password Harus Diisi'));
 
         if($this->form_validation->run() == FALSE){
             $this->load->view('login');
