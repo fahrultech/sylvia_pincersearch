@@ -94,11 +94,10 @@ $('.dm').hide();
 $('.dtm').hide();
 $('.dtmm').hide();
 $(document).ready(function(){
-    let isEmpty = $('input[name="file"]').val();
     $('.jumlahRow').hide();
     $('#importbarang').on('submit', function(event){
 		event.preventDefault();
-        if(isEmpty !== "Kosong"){
+        if($('input[name="file"]').get(0).files.length === 0){
             $('.dtmm').show();
         }else{
            $.ajax({
