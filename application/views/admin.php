@@ -11,12 +11,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
-                                    <h4 class="page-title float-left">Pincersearch</h4>
+                                    <!-- <h4 class="page-title float-left">Pincersearch</h4>
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a href="#">Adminox</a></li>
                                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
                                         <li class="breadcrumb-item active">Starter Page</li>
-                                    </ol>
+                                    </ol> -->
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -26,9 +26,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="card-box">
                                     <div class="row">
                                         <div class="col-12">
-                                            <h4 class=" m-t-0 header-title">Pincersearch</h4>
+                                            <center><h2>Selamat Datang di Perhitungan Pincer Search</h2></center>
+                                            <center><h2>Mekar Swalayan</h2></center>
                                         </div>
                                     </div>
+                                    <center>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
@@ -39,25 +41,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 </ol>
                                                 <div class="carousel-inner" role="listbox">
                                                     <div class="carousel-item active">
-                                                        <img class="d-block img-fluid" src="assets/images/small/img-1.jpg" alt="First slide" />
-                                                        <div class="carousel-caption d-none d-md-block">
+                                                        <img class="d-block img-fluid" src="assets/images/small/1.jpeg" alt="First slide" width="900px" height="600px" />
+                                                       <!--  <div class="carousel-caption d-none d-md-block">
                                                             <h3 class="text-white">First slide label</h3>
                                                             <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <div class="carousel-item">
-                                                        <img class="d-block img-fluid" src="assets/images/small/img-2.jpg" alt="Second slide" />
-                                                        <div class="carousel-caption d-none d-md-block">
+                                                        <img class="d-block img-fluid" src="assets/images/small/2.jpeg" alt="Second slide" width="900px" height="600px"/>
+                                                        <!-- <div class="carousel-caption d-none d-md-block">
                                                             <h3 class="text-white">Second slide label</h3>
                                                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <div class="carousel-item">
-                                                        <img class="d-block img-fluid" src="assets/images/small/img-3.jpg" alt="Third slide" />
-                                                        <div class="carousel-caption d-none d-md-block">
+                                                        <img class="d-block img-fluid" src="assets/images/small/3.jpeg" alt="Third slide" width="900px" height="600px"/>
+                                                       <!--  <div class="carousel-caption d-none d-md-block">
                                                             <h3 class="text-white">Third slide label</h3>
                                                             <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
@@ -73,6 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                         </div>
+                        </center>
                         <!-- end row -->
                     </div> <!-- container -->
                 </div> <!-- content -->

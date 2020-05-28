@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="page-title-box">
                         <h4 class="page-title float-left">Import Data</h4>
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item active">Profile</li>
+                            <li class="breadcrumb-item active">Import Data</li>
                         </ol>
                         <div class="clearfix"></div>
                     </div>

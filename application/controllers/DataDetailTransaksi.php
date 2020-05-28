@@ -34,7 +34,7 @@ class DataDetailTransaksi extends CI_Controller{
            $data[] = $row;
         }
         $output = array("draw" => $_POST['draw'],
-          //"recordsTotal" => $this->kecamatan->count_all(),
+          
           "recordsFiltered" => $this->datatransaksi->count_filtered(),
           "data" => $data
         );
