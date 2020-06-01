@@ -67,4 +67,17 @@ class DataDetailTransaksi_model extends CI_Model
         $query = $this->db->get();
         return $query->num_rows();
     }
+    function updateTanggalAndInvoice($id,$data){
+        //echo json_encode(array($id,$data['noInvoice']));
+        // $this->db->set("tanggal",$data["tanggal"]);
+        // $this->db->set("noInvoice",$data["noInvoice"]);
+        // $this->db->where("noInvoice",$id);
+        // $this->db->update($this->table);
+        $data = array(
+            'tanggal' => $data["tanggal"],
+            'noInvoice' => $data["noInvoice"]
+        );
+        $this->db->where('noInvoice',$id);
+        $this->db->update($this->table,$data);
+    }
 }

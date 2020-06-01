@@ -74,6 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script>
         moment.locale("ID");
         let table;
+        let notransaksi_old;
         $('[name="tanggal"]').on('change', function(){
            $(this).attr('data',moment($(this).val()).format("YYYY-MM-DD"));
         })
@@ -81,7 +82,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             let data = {
                 "idTransaksi" : $('[name="idTransaksi"]').val(),
                 "tanggal" : $('[name="tanggal"]').attr("data"),
-                "noInvoice" : $('[name="noInvoice"]').val()
+                "noInvoice" : $('[name="noInvoice"]').val(),
+                "oldinvoice" : notransaksi_old
             }
             $.ajax({
                 url : "DataTransaksi/updateTransaksi",
@@ -90,6 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 dataType : "JSON",
                 success : function(data){
                     $('#modalDataTransaksi').modal('hide');
+                    
                     table.ajax.reload();
                 }
 
@@ -102,11 +105,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type : "GET",
                 dataType : "JSON",
                 success : function(data){
+                    
                     $('[name="idTransaksi"]').val(data.idTransaksi);
                     $('[name="tanggal"]').val(moment(data.tanggal).format("DD-MMMM-YYYY"));
                     $('[name="tanggal"]').attr("data",data.tanggal);
                     $('[name="noInvoice"]').val(data.noInvoice);
                     $('#modalDataTransaksi').modal('show');
+                    notransaksi_old = document.querySelector('[name="noInvoice"]').value;
+                    $('#modalDataTransaksi .modal-title').text("Edit Transaksi");
+                    console.log(notransaksi_old);
                 }
             })
         }

@@ -48,6 +48,8 @@ class DataTransaksi extends CI_Controller{
             'noInvoice' => $this->input->post('noInvoice')
         );
         $this->DataTransaksi_model->update(array('idTransaksi' => $this->input->post('idTransaksi')),$data);
+        $this->DataDetailTransaksi_model->updateTanggalAndInvoice($this->input->post('oldinvoice'),$data);
+       
         echo json_encode(array("status" => TRUE));
     }
     function hapusTransaksi($id){

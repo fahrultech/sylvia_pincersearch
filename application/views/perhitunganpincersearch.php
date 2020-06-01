@@ -217,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 rule_temp.push(data[1][i][5]);
                 column_data.push(rule_temp);
             }
-            //if(data[1].length > 0){
+            if(data[1].length > 0){
                 let sh="";
             for(let j=0;j<data[0].length;j++){
                 let gh="";
@@ -313,7 +313,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('.log .col-md-6').append(sh);
             $('#rule tbody').append(table);
             google.charts.setOnLoadCallback(function() {drawChart(column_data,"Values",['#297ef6', '#e52b4c', '#32c861'])});
-            //}
+            }else{
+                $('.log .col-md-6').html("<h3 class='text-center'>Tidak Ada Rule Yang Terbentuk</h3>")
+            }
          }
      });
         }
