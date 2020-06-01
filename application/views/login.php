@@ -32,10 +32,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="account-box">
                                     <div class="account-logo-box">
                                         <h2 class="text-uppercase text-center">
-                                            PincerSearch
+                                           Sign In
                                         </h2>
-                                        <h5 class="text-uppercase font-bold m-b-5 m-t-50">Sign In</h5>
-                                        <p class="m-b-0">Login to your Admin account</p>
+                                        
                                     </div>
                                     <div class="account-content">
                                         <form method="post" class="form-horizontal" action="<?php echo base_url('login/proses');?>">
@@ -68,7 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                             <div class="form-group row m-b-20">
                                                 <div class="col-12">
-                                                    <a href="page-recoverpw.html" class="text-muted pull-right"><small>Forgot your password?</small></a>
+                                                   <!--  <a href="page-recoverpw.html" class="text-muted pull-right"><small>Forgot your password?</small></a> -->
                                                     <label for="password">Password</label>
                                                     <input class="form-control" type="password" name="password" id="password" placeholder="Masukkan password">
                                                 </div>
@@ -78,10 +77,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <div class="col-12">
 
                                                     <div class="checkbox checkbox-success">
-                                                        <input id="remember" type="checkbox" checked="">
+                                                       <!--  <input id="remember" type="checkbox" checked="">
                                                         <label for="remember">
                                                             Remember me
-                                                        </label>
+                                                        </label> -->
                                                     </div>
 
                                                 </div>
