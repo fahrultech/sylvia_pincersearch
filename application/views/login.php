@@ -20,6 +20,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <link href="<?php echo base_url('assets/css/metismenu.min.css');?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('assets/css/style.css')?>" rel="stylesheet" type="text/css" />
         <script src="<?php echo base_url('assets/js/modernizr.min.js');?>"></script>
+        <style>
+         body.bg-accpunt-pages{
+             background : #64c5b1!important;
+         }
+         .btn-login{
+             background-color : #64c5b1!important;
+             border : 1px solid #64c5b1!important;
+             color : #f1f1f1!important;
+         }
+        </style>
     </head>
     <body class="bg-accpunt-pages">
         <!-- HOME -->
@@ -88,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             </div>
                                             <div class="form-group row text-center m-t-10">
                                                 <div class="col-12">
-                                                    <button class="btn btn-md btn-block btn-primary waves-effect waves-light" type="submit">Sign In</button>
+                                                    <button class="btn btn-md btn-block btn-login waves-effect waves-light" type="submit">Sign In</button>
                                                 </div>
                                             </div>
                                         </form>
