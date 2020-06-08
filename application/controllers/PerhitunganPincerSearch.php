@@ -75,6 +75,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         $tglawal = $this->input->post('tglawal');
         $tglakhir = $this->input->post('tglakhir');
         $minsupport = $this->input->post('minsupport');
+        $maxitem = $this->input->post('maxitem');
         $this->minConfidence = $this->input->post('minconfidence');
         $dataDetailTransaksi = $this->PerhitunganPincerSearch_model->getDetailTransactionByDate($tglawal, $tglakhir);
         $detailTransaksiArray = array();
@@ -91,11 +92,28 @@ class PerhitunganPincerSearch extends CI_Controller{
           }else{
             array_push($detailTransaksiArray[$idx]['kodeBarang'],$ddt->kodeBarang);
           }
-          $r=array();
-          $r[]=$ddt->kodeBarang;
-          $tempmfcs[] = $ddt->kodeBarang;
-          $this->c1[] = $r;
+          // $r=array();
+          // $r[]=$ddt->kodeBarang;
+          // $tempmfcs[] = $ddt->kodeBarang;
+          // $this->c1[] = $r;
           $no++;
+        }
+        $readyDelete = array();
+        for($i=0;$i<count($detailTransaksiArray);$i++){
+          if(count($detailTransaksiArray[$i]["kodeBarang"]) < $maxitem){
+            $readyDelete[] =$i;
+          }
+        }
+        for($i=0;$i<count($readyDelete);$i++){
+          unset($detailTransaksiArray[$readyDelete[$i]]);
+        }
+        foreach($detailTransaksiArray as $dt){
+          foreach($dt["kodeBarang"] as $kd){
+            $r=array();
+            $r[]=$kd;
+            $tempmfcs[] = $kd;
+            $this->c1[] = $r;
+          }
         }
         foreach($detailTransaksiArray as $ddt){
           $transaksi[] = $ddt["kodeBarang"];
@@ -136,7 +154,10 @@ class PerhitunganPincerSearch extends CI_Controller{
       }
       return $db;
     }
+
+    // Fungsi utama untuk melakukan algoritma pincersearch
     function running($mfcs=array(),$db=array(),$cdata=array()){
+      // Inisialisasi variabel-variabel yang dibutuhkan dalam proses
       $i=0;
       $mfs = array();
       $log = array();

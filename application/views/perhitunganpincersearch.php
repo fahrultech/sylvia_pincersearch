@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Start right Content here -->
 <!-- ============================================================== -->
 <style>
-#tawal,#takhir,#msupport,#mconfidence{
+#tawal,#takhir,#msupport,#mconfidence,#maxitem{
     display:none
 }
 </style>
@@ -28,6 +28,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="col-12">
                     <div class="card-box">
                         <form class="form-horizontal" action="" autocomplete="off">
+                            <div class="form-group row">
+                                <label for="tglawal" class="col-form-label col-2">Max Item</label>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="maxitem">
+                                    <ul class="parsley-errors-list filled" id="maxitem">
+                                        <li class="parsley-required">Maximum Item.</li>
+                                    </ul>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label for="tglawal" class="col-form-label col-2">Tanggal Awal</label>
                                 <div class="col-4">
@@ -150,7 +159,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          "tglawal" : moment(document.querySelector('[name="tglawal"]').value).format("YYYY-MM-DD"),
          "tglakhir" : moment(document.querySelector('[name="tglakhir"]').value).format("YYYY-MM-DD"),
          "minsupport" : document.querySelector('[name="minsupport"]').value,
-         "minconfidence" : document.querySelector('[name="minconfidence"]').value
+         "minconfidence" : document.querySelector('[name="minconfidence"]').value,
+         "maxitem" : document.querySelector('[name="maxitem"]').value
      }
      console.log(data.tglakhir);
      if(data.tglawal === "Invalid date"){
@@ -165,6 +175,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      if(data.minconfidence === ""){
         $('#mconfidence').show();
      }else{$('#mconfidence').hide();}
+     if(data.minconfidence === ""){
+        $('#maxitem').show();
+     }else{$('#maxitem').hide();}
      if(data.tglawal !== "Invalid date" 
         && data.tglakhir !== "Invalid date" 
         && data.minsupport !== ""
