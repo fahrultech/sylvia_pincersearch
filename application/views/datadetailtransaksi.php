@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th>No Invoice</th>
                                 <th>Kode Barang</th>
                                 <th>Nama Barang</th>
-                                <th width="200px">Action</th>
+                                <!-- <th width="200px">Action</th> -->
                             </tr>
                         </thead>
 			        </table>
