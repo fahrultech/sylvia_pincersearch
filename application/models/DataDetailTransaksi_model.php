@@ -6,8 +6,8 @@ class DataDetailTransaksi_model extends CI_Model
 {
     public $table = 'detailtransaksi';
     public $id = 'idDetailTransaksi';
-    public $order = array('noInvoice' => 'asc');
-    public $columnOrder = array('tanggal,noInvoice');
+    public $order = array('noInvoice');
+    public $columnOrder = array('idDetailTransaksi','tanggal','noInvoice');
     public $columnSearch = array('noInvoice');
 
     // Konstructor
@@ -16,6 +16,10 @@ class DataDetailTransaksi_model extends CI_Model
     }
 
     function _get_datatables_query(){
+        // if(isset($_POST['order'])){
+        //     echo json_encode($_POST['order']);
+        // }
+        
         $this->db->select('idDetailTransaksi,tanggal, detailtransaksi.noInvoice, detailtransaksi.kodeBarang, namaBarang');
         $this->db->from($this->table);
         $this->db->join('barang','barang.kodeBarang = detailtransaksi.kodeBarang');
@@ -61,6 +65,9 @@ class DataDetailTransaksi_model extends CI_Model
             $this->db->where('noInvoice',$noinvoice);
             $this->db->delete($this->table);
         }
+    }
+    function count_all(){
+        return $this->db->count_all($this->table);
     }
     function count_filtered(){
         $this->_get_datatables_query();

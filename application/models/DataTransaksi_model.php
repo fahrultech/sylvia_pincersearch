@@ -54,6 +54,9 @@ class DataTransaksi_model extends CI_Model
         $query = $this->db->get();
         return $query->num_rows();
     }
+    function count_all(){
+        return $this->db->count_all($this->table);
+    }
     function getById($id){
         $this->db->from($this->table);
         $this->db->where($this->id,$id);
