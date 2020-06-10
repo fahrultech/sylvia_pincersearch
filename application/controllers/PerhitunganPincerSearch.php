@@ -28,18 +28,20 @@ class PerhitunganPincerSearch extends CI_Controller{
         $data = $this->PerhitunganPincerSearch_model->getAll();
         echo json_encode($data);
     }
-    function getDetailBarang_01($res){
-       $data = array();
-       foreach($res as $r){  
-         $row = array(); 
-         for($i=0;$i<count($r);$i++){
-          $db = $this->DataBarang_model->getByKodeBarang($r[$i]);
-          $row[] = array($db->kodeBarang,$db->namaBarang);
-         }
-         $data[] = $row;
-       }
-       return $data;
-    }
+    // function getDetailBarang_01($res){
+    //    $data = array();
+    //    foreach($res as $r){  
+    //      $row = array(); 
+    //      for($i=0;$i<count($r);$i++){
+    //       $db = $this->DataBarang_model->getByKodeBarang($r[$i]);
+    //       $row[] = array($db->kodeBarang,$db->namaBarang);
+    //      }
+    //      $data[] = $row;
+    //    }
+    //    return $data;
+    // }
+
+    //untuk menampilkan nama barang
     function ss($dat){
         $cow = array();
         foreach($dat as $dt){
@@ -52,6 +54,8 @@ class PerhitunganPincerSearch extends CI_Controller{
         }
         return $cow;
     }
+
+    //untuk menampilkan detail barang yang berupa array dan nama barang
     function getDetailBarang($res){
       $data = array();
       $no=0;
@@ -71,6 +75,8 @@ class PerhitunganPincerSearch extends CI_Controller{
       }
       return $res;
    }
+
+   //untuk memproses data di button proses
     function getByDate(){
         $tglawal = $this->input->post('tglawal');
         $tglakhir = $this->input->post('tglakhir');
@@ -124,6 +130,8 @@ class PerhitunganPincerSearch extends CI_Controller{
         $this->sosupport = ($this->totalTransaksi * $minsupport)/100;
         echo json_encode($this->running($this->mfcs,$transaksi,$this->removeDupplicateArray($this->c1)));
     }
+
+    //untuk menghapus jika ada itemset atau array yang sama. misal di update mfcs
     function removeDupplicateArray($db=array()){
       for($i=0;$i<count($db)-1;$i++){
         for($j=$i+1;$j<count($db);$j++){
@@ -134,26 +142,26 @@ class PerhitunganPincerSearch extends CI_Controller{
       }
       return $db;
     }
-    function removeDupplicateMultiDimArray($db=array()){
-      for($i=0;$i<count($db)-1;$i++){
-        for($j=$i+1;$j<count($db);$j++){
-           if(count(array_diff($db[$i],$db[$j]))===0){
-            array_splice($db,$j,1); 
-           }
-        }
-      }
-      return $db;
-    }
-    function removeMultiDupplicateMultiDimArray($db=array()){
-      for($i=0;$i<count($db)-1;$i++){
-        for($j=$i+1;$j<count($db);$j++){
-           if(count(array_diff($db[$i][0],$db[$j][0]))===0){
-            array_splice($db,$j,1); 
-           }
-        }
-      }
-      return $db;
-    }
+    // function removeDupplicateMultiDimArray($db=array()){
+    //   for($i=0;$i<count($db)-1;$i++){
+    //     for($j=$i+1;$j<count($db);$j++){
+    //        if(count(array_diff($db[$i],$db[$j]))===0){
+    //         array_splice($db,$j,1); 
+    //        }
+    //     }
+    //   }
+    //   return $db;
+    // }
+    // function removeMultiDupplicateMultiDimArray($db=array()){
+    //   for($i=0;$i<count($db)-1;$i++){
+    //     for($j=$i+1;$j<count($db);$j++){
+    //        if(count(array_diff($db[$i][0],$db[$j][0]))===0){
+    //         array_splice($db,$j,1); 
+    //        }
+    //     }
+    //   }
+    //   return $db;
+    // }
 
     // Fungsi utama untuk melakukan algoritma pincersearch
     function running($mfcs=array(),$db=array(),$cdata=array()){
