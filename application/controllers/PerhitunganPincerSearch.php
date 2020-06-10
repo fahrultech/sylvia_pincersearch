@@ -110,18 +110,21 @@ class PerhitunganPincerSearch extends CI_Controller{
         $this->datatransaksi = $detailTransaksiArray;
         $this->mfcs[] = $this->removeDupplicateArray($tempmfcs);
         $this->sosupport = ($this->totalTransaksi * $minsupport)/100;
-        echo json_encode($this->running($this->mfcs,$transaksi,$this->removeDupplicateArray($this->removeDupplicateArray($this->c1))));
+        echo json_encode($this->running($this->mfcs,$transaksi,$this->removeDupplicateArray($this->c1)));
     }
     function removeDupplicateArray($db){
       $removeKeys = array();
       for($i=0;$i<count($db)-1;$i++){
         for($j=$i+1;$j<count($db);$j++){
           if($db[$i] === $db[$j]){
-            array_splice($db,$j,1);
+            $removeKeys[] = $j;
           }
         }
       }
-      return $db;
+      for($i=0;$i<count($removeKeys);$i++){
+           unset($db[$removeKeys[$i]]);
+      }
+      return array_values($db);
     }
     function removeDupplicateArrayNew($db=array()){
       for($i=0;$i<count($db)-1;$i++){
