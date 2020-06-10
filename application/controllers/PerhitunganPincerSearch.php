@@ -83,7 +83,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         $minsupport = $this->input->post('minsupport');
         $maxitem = $this->input->post('maxitem');
         $this->minConfidence = $this->input->post('minconfidence');
-        $dataDetailTransaksi = $this->PerhitunganPincerSearch_model->getDetailTransactionByDate($tglawal, $tglakhir);
+        $dataDetailTransaksi = $this->PerhitunganPincerSearch_model->getDetailTransactionByDateAndCount($tglawal, $tglakhir,$maxitem);
         $detailTransaksiArray = array();
         $transaksi = array();
         $tempmfcs = array();
@@ -98,28 +98,11 @@ class PerhitunganPincerSearch extends CI_Controller{
           }else{
             array_push($detailTransaksiArray[$idx]['kodeBarang'],$ddt->kodeBarang);
           }
-          // $r=array();
-          // $r[]=$ddt->kodeBarang;
-          // $tempmfcs[] = $ddt->kodeBarang;
-          // $this->c1[] = $r;
+          $r=array();
+          $r[]=$ddt->kodeBarang;
+          $tempmfcs[] = $ddt->kodeBarang;
+          $this->c1[] = $r;
           $no++;
-        }
-        $readyDelete = array();
-        for($i=0;$i<count($detailTransaksiArray);$i++){
-          if(count($detailTransaksiArray[$i]["kodeBarang"]) < $maxitem){
-            $readyDelete[] =$i;
-          }
-        }
-        for($i=0;$i<count($readyDelete);$i++){
-          unset($detailTransaksiArray[$readyDelete[$i]]);
-        }
-        foreach($detailTransaksiArray as $dt){
-          foreach($dt["kodeBarang"] as $kd){
-            $r=array();
-            $r[]=$kd;
-            $tempmfcs[] = $kd;
-            $this->c1[] = $r;
-          }
         }
         foreach($detailTransaksiArray as $ddt){
           $transaksi[] = $ddt["kodeBarang"];
@@ -132,36 +115,20 @@ class PerhitunganPincerSearch extends CI_Controller{
     }
 
     //untuk menghapus jika ada itemset atau array yang sama. misal di update mfcs
-    function removeDupplicateArray($db=array()){
+    function removeDupplicateArray($db){
+      $removeKeys = array();
       for($i=0;$i<count($db)-1;$i++){
         for($j=$i+1;$j<count($db);$j++){
           if($db[$i] === $db[$j]){
-            array_splice($db,$j,1);
+            $removeKeys[] = $j;
           }
         }
       }
+      for($i=0;$i<count($removeKeys);$i++){
+        unset($db[$removeKeys[$i]]);
+      }
       return $db;
     }
-    // function removeDupplicateMultiDimArray($db=array()){
-    //   for($i=0;$i<count($db)-1;$i++){
-    //     for($j=$i+1;$j<count($db);$j++){
-    //        if(count(array_diff($db[$i],$db[$j]))===0){
-    //         array_splice($db,$j,1); 
-    //        }
-    //     }
-    //   }
-    //   return $db;
-    // }
-    // function removeMultiDupplicateMultiDimArray($db=array()){
-    //   for($i=0;$i<count($db)-1;$i++){
-    //     for($j=$i+1;$j<count($db);$j++){
-    //        if(count(array_diff($db[$i][0],$db[$j][0]))===0){
-    //         array_splice($db,$j,1); 
-    //        }
-    //     }
-    //   }
-    //   return $db;
-    // }
 
     // Fungsi utama untuk melakukan algoritma pincersearch
     function running($mfcs=array(),$db=array(),$cdata=array()){

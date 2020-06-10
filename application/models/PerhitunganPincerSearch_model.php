@@ -36,6 +36,7 @@ class PerhitunganPincerSearch_model extends CI_Model
             $this->db->where('noInvoice',$d->noInvoice);
             $res[] = $this->db->get()->result();
         }
+        //echo json_encode(call_user_func_array('array_merge',$res));
         return call_user_func_array('array_merge',$res);
     }
     function get_datatables(){
