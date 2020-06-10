@@ -19,6 +19,25 @@ class PerhitunganPincerSearch_model extends CI_Model
         $detailTransaksiByDate = $this->db->get()->result();
         return $detailTransaksiByDate;
     }
+    function getDetailTransactionByDateAndCount($tglawal,$tglakhir,$count){
+        $this->db->select('noInvoice');
+        $this->db->from('detailtransaksi');
+        $this->db->where('tanggal >=',$tglawal);
+        $this->db->where('tanggal <=',$tglakhir);
+        $this->db->having('count(noInvoice) <=',$count);
+        $this->db->group_by('noInvoice');
+        $detailTransaksiByDate = $this->db->get()->result();
+        $res = array();
+        foreach($detailTransaksiByDate as $d){
+            $this->db->select('noInvoice,kodeBarang');
+            $this->db->from('detailtransaksi');
+            $this->db->where('tanggal >=',$tglawal);
+            $this->db->where('tanggal <=',$tglakhir);
+            $this->db->where('noInvoice',$d->noInvoice);
+            $res[] = $this->db->get()->result();
+        }
+        return call_user_func_array('array_merge',$res);
+    }
     function get_datatables(){
         $this->_get_datatables_query();
         if($_POST['length'] != -1)

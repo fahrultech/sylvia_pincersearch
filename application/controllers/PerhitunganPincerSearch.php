@@ -28,18 +28,6 @@ class PerhitunganPincerSearch extends CI_Controller{
         $data = $this->PerhitunganPincerSearch_model->getAll();
         echo json_encode($data);
     }
-    function getDetailBarang_01($res){
-       $data = array();
-       foreach($res as $r){  
-         $row = array(); 
-         for($i=0;$i<count($r);$i++){
-          $db = $this->DataBarang_model->getByKodeBarang($r[$i]);
-          $row[] = array($db->kodeBarang,$db->namaBarang);
-         }
-         $data[] = $row;
-       }
-       return $data;
-    }
     function ss($dat){
         $cow = array();
         foreach($dat as $dt){
@@ -77,7 +65,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         $minsupport = $this->input->post('minsupport');
         $maxitem = $this->input->post('maxitem');
         $this->minConfidence = $this->input->post('minconfidence');
-        $dataDetailTransaksi = $this->PerhitunganPincerSearch_model->getDetailTransactionByDate($tglawal, $tglakhir);
+        $dataDetailTransaksi = $this->PerhitunganPincerSearch_model->getDetailTransactionByDateAndCount($tglawal, $tglakhir,$maxitem);
         $detailTransaksiArray = array();
         $transaksi = array();
         $tempmfcs = array();
@@ -92,29 +80,29 @@ class PerhitunganPincerSearch extends CI_Controller{
           }else{
             array_push($detailTransaksiArray[$idx]['kodeBarang'],$ddt->kodeBarang);
           }
-          // $r=array();
-          // $r[]=$ddt->kodeBarang;
-          // $tempmfcs[] = $ddt->kodeBarang;
-          // $this->c1[] = $r;
+          $r=array();
+          $r[]=$ddt->kodeBarang;
+          $tempmfcs[] = $ddt->kodeBarang;
+          $this->c1[] = $r;
           $no++;
         }
-        $readyDelete = array();
-        for($i=0;$i<count($detailTransaksiArray);$i++){
-          if(count($detailTransaksiArray[$i]["kodeBarang"]) < $maxitem){
-            $readyDelete[] =$i;
-          }
-        }
-        for($i=0;$i<count($readyDelete);$i++){
-          unset($detailTransaksiArray[$readyDelete[$i]]);
-        }
-        foreach($detailTransaksiArray as $dt){
-          foreach($dt["kodeBarang"] as $kd){
-            $r=array();
-            $r[]=$kd;
-            $tempmfcs[] = $kd;
-            $this->c1[] = $r;
-          }
-        }
+        // $readyDelete = array();
+        // for($i=0;$i<count($detailTransaksiArray);$i++){
+        //   if(count($detailTransaksiArray[$i]["kodeBarang"]) < $maxitem){
+        //     $readyDelete[] =$i;
+        //   }
+        // }
+        // for($i=0;$i<count($readyDelete);$i++){
+        //   unset($detailTransaksiArray[$readyDelete[$i]]);
+        // }
+        // foreach($detailTransaksiArray as $dt){
+        //   foreach($dt["kodeBarang"] as $kd){
+        //     $r=array();
+        //     $r[]=$kd;
+        //     $tempmfcs[] = $kd;
+        //     $this->c1[] = $r;
+        //   }
+        // }
         foreach($detailTransaksiArray as $ddt){
           $transaksi[] = $ddt["kodeBarang"];
         }
@@ -122,9 +110,10 @@ class PerhitunganPincerSearch extends CI_Controller{
         $this->datatransaksi = $detailTransaksiArray;
         $this->mfcs[] = $this->removeDupplicateArray($tempmfcs);
         $this->sosupport = ($this->totalTransaksi * $minsupport)/100;
-        echo json_encode($this->running($this->mfcs,$transaksi,$this->removeDupplicateArray($this->c1)));
+        echo json_encode($this->running($this->mfcs,$transaksi,$this->removeDupplicateArray($this->removeDupplicateArray($this->c1))));
     }
-    function removeDupplicateArray($db=array()){
+    function removeDupplicateArray($db){
+      $removeKeys = array();
       for($i=0;$i<count($db)-1;$i++){
         for($j=$i+1;$j<count($db);$j++){
           if($db[$i] === $db[$j]){
@@ -133,6 +122,15 @@ class PerhitunganPincerSearch extends CI_Controller{
         }
       }
       return $db;
+    }
+    function removeDupplicateArrayNew($db=array()){
+      for($i=0;$i<count($db)-1;$i++){
+        for($j=$i+1;$j<count($db);$j++){
+          if(count(array_diff($db[$i],$db[$j])) == 0){
+            array_splice($db,$j,1);
+          }
+        }
+      }
     }
     function removeDupplicateMultiDimArray($db=array()){
       for($i=0;$i<count($db)-1;$i++){
