@@ -227,7 +227,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 rule_temp.push(`Rule ${i+1}`);
                 rule_temp.push(data[1][i][4]);
                 rule_temp.push(data[1][i][6]);
-                rule_temp.push(data[1][i][5]);
+                rule_temp.push(data[1][i][2]);
                 column_data.push(rule_temp);
             }
             if(data[1].length > 0){
