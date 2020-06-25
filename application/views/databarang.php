@@ -85,10 +85,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script>
         let table;
         update = () => {
-            if(document.querySelector('[name="namaBarang"]').value === ""){
+            if(document.querySelector('[name="namaBarang"]').value === "" && document.querySelector('[name="kodeBarang"]').value === "" ){
                 $('#nmbarang').show()
+                $('#kdbarang').show();
             }else if(document.querySelector('[name="kodeBarang"]').value === ""){
                 $('#kdbarang').show();
+            }else if(document.querySelector('[name="namaBarang"]').value === ""){
+                $('#nmbarang').show() 
             }else{
                 $.ajax({
                     url : "DataBarang/updateBarang",
