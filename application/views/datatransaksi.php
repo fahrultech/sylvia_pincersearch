@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+<style>
+  #trtgl,#trinv{
+    display:none
+  }
+</style>
     <!-- ============================================================== -->
     <!-- Start right Content here -->
     <!-- ============================================================== -->
@@ -52,12 +57,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label class="col-form-label col-3" for="">Tanggal</label>
                         <div class="col-8">
                             <input class="form-control" data="" type="text" name="tanggal">
+                            <ul class="parsley-errors-list filled" id="trtgl">
+                                <li class="parsley-required">Tanggal Kosong.</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-form-label col-3" for="">No Invoice</label>
                         <div class="col-8">
                             <input class="form-control" type="text" name="noInvoice">
+                            <ul class="parsley-errors-list filled" id="trinv">
+                                <li class="parsley-required">No Invoice Kosong.</li>
+                            </ul>
                         </div>
                     </div>
                 </form>
@@ -85,18 +96,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 "noInvoice" : $('[name="noInvoice"]').val(),
                 "oldinvoice" : notransaksi_old
             }
-            $.ajax({
-                url : "DataTransaksi/updateTransaksi",
-                type : "POST",
-                data : data,
-                dataType : "JSON",
-                success : function(data){
-                    $('#modalDataTransaksi').modal('hide');
-                    
-                    table.ajax.reload();
-                }
-
-            })
+            if($('[name="tanggal"]').val() === "" && data.noInvoice === ""){
+                $('#trtgl').show()
+                $('#trinv').show();
+            }else if(data.noInvoice === ""){
+                $('#trinv').show();
+            }else if($('[name="tanggal"]').val() === ""){
+                $('#trtgl').show()   
+            }else{
+                $.ajax({
+                    url : "DataTransaksi/updateTransaksi",
+                    type : "POST",
+                    data : data,
+                    dataType : "JSON",
+                    success : function(data){
+                        $('#modalDataTransaksi').modal('hide');
+                        table.ajax.reload();
+                        $('#trtgl').hide()
+                        $('#trinv').hide()
+                    }
+                })
+            }
         }
         editTransaksi = id => {
             $('form')[0].reset();
@@ -110,10 +130,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $('[name="tanggal"]').val(moment(data.tanggal).format("DD-MMMM-YYYY"));
                     $('[name="tanggal"]').attr("data",data.tanggal);
                     $('[name="noInvoice"]').val(data.noInvoice);
+                    $('#trtgl').hide()
+                    $('#trinv').hide()
                     $('#modalDataTransaksi').modal('show');
                     notransaksi_old = document.querySelector('[name="noInvoice"]').value;
                     $('#modalDataTransaksi .modal-title').text("Edit Transaksi");
-                    console.log(notransaksi_old);
                 }
             })
         }

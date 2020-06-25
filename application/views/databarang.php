@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+<style>
+  #kdbarang,#nmbarang{
+    display:none
+  }
+</style>
     <!-- ============================================================== -->
     <!-- Start right Content here -->
     <!-- ============================================================== -->
@@ -52,12 +57,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label class="col-form-label col-3" for="">Kode Barang</label>
                         <div class="col-8">
                             <input class="form-control" type="text" name="kodeBarang">
+                            <ul class="parsley-errors-list filled" id="kdbarang">
+                                <li class="parsley-required">Kode Barang Kosong.</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-form-label col-3" for="">Nama Barang</label>
                         <div class="col-8">
                             <input class="form-control" type="text" name="namaBarang">
+                            <ul class="parsley-errors-list filled" id="nmbarang">
+                                <li class="parsley-required">Nama Barang Kosong.</li>
+                            </ul>
                         </div>
                     </div>
                 </form>
@@ -74,18 +85,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script>
         let table;
         update = () => {
-            $.ajax({
-                url : "DataBarang/updateBarang",
-                type : "POST",
-                data : $('form').serialize(),
-                dataType : "JSON",
-                success : function(data){
-                    if(data.status){
-                        $('#modalDataBarang').modal('hide');
-                        table.ajax.reload();
+            if(document.querySelector('[name="namaBarang"]').value === ""){
+                $('#nmbarang').show()
+            }else if(document.querySelector('[name="kodeBarang"]').value === ""){
+                $('#kdbarang').show();
+            }else{
+                $.ajax({
+                    url : "DataBarang/updateBarang",
+                    type : "POST",
+                    data : $('form').serialize(),
+                    dataType : "JSON",
+                    success : function(data){
+                        if(data.status){
+                            $('#modalDataBarang').modal('hide');
+                            $('#nmbarang').hide()
+                            $('#kdbarang').hide()
+                            table.ajax.reload();
+                        }
                     }
-                }
-            })
+                })
+            }
         }
         hapusBarang = id => {
                 if(confirm("Apakah Anda Yakin Akan Menghapus Data Ini")){
@@ -113,6 +132,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    $('[name="idBarang"]').val(data.idBarang);
                    $('[name="kodeBarang"]').val(data.kodeBarang);
                    $('[name="namaBarang"]').val(data.namaBarang);
+                   $('#nmbarang').hide()
+                   $('#kdbarang').hide()
                    $('#modalDataBarang').modal('show');
                }
             });
