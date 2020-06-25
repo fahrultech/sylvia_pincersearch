@@ -43,6 +43,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                Barang Tidak Masuk <span class="jumlahBarangTidakMasuk"></span> pcs
                             </div>
                           </div>
+                          <div class="trm" style="text-align:center">
+                            <div class="alert barangtidakmasuk alert-success alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                               Transaksi Masuk <span class="transaksiMasuk"></span> pcs
+                            </div>
+                          </div>
+                          <div class="trtm" style="text-align:center">
+                            <div class="alert barangtidakmasuk alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                               Transaksi Tidak Masuk <span class="transaksiTidakMasuk"></span> pcs
+                            </div>
+                          </div>
                           <div class="dtmm" style="text-align:center">
                             <div class="alert barangkosong alert-danger alert-dismissible fade show" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -92,6 +108,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $('.sk-fading-circle').hide();
 $('.dm').hide();
 $('.dtm').hide();
+$('.trm').hide();
+$('.trtm').hide();
 $('.dtmm').hide();
 $(document).ready(function(){
     $('.jumlahRow').hide();
@@ -104,6 +122,7 @@ $(document).ready(function(){
 			url:"ImportData/import",
 			method:"POST",
 			data:new FormData(this),
+            dataType: "JSON",
 			contentType:false,
 			cache:false,
 			processData:false,
@@ -118,9 +137,13 @@ $(document).ready(function(){
                 $('#file').val('');
                 $('.dm').show();
                 $('.dtm').show();
+                $('.trm').show();
+                $('.trtm').show();
                 $('.dtmm').hide();
-                $('.jumlahBarangMasuk').text(JSON.parse(data).barangMasuk);
-                $('.jumlahBarangTidakMasuk').text(JSON.parse(data).barangTidakMasuk);
+                $('.jumlahBarangMasuk').text(data[0].barangMasuk);
+                $('.jumlahBarangTidakMasuk').text(data[0].barangTidakMasuk);
+                $('.transaksiMasuk').text(data[1].trMasuk);
+                $('.transaksiTidakMasuk').text(data[1].trTidakMasuk);
                 $('.barangmasuk').addClass('show');
                 $('.barangtidakmasuk').addClass('show');
 			},
