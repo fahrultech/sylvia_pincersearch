@@ -154,7 +154,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         $pass["mfs"] = count($mfs) !== 0 ? $this->ss($mfs) : $mfs;
         $tempFreq = $frequent;
         count($mfs) > 0 ? $frequent = $this->lprune($frequent,$mfs) : $frequent = $frequent;
-        $mfcs = $this->removeMFCSSubset($this->sortByCount($this->getMFCS($infrequent,$mfcs)));
+        count($infrequent) !== 0 ? $mfcs = $this->removeMFCSSubset($this->sortByCount($this->getMFCS($infrequent,$mfcs))) : $mfcs = $mfcs;
         $pass["mfcs"] = count($mfcs) !== 0 ? $this->ss($mfcs) : $mfcs;
         $cdata = $this->removeMFCSSubset($this->joinData($frequent));
         if(count($tempFreq) !== count($frequent)){
