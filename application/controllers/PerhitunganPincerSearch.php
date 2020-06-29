@@ -48,7 +48,7 @@ class PerhitunganPincerSearch extends CI_Controller{
            $row = array();
            foreach($dt as $d){
             $db = $this->DataBarang_model->getByKodeBarang($d);
-            $row[] = $db->namaBarang;
+            $row[] = trim($db->namaBarang);
            }
            $cow[] = $row;
         }
@@ -65,7 +65,7 @@ class PerhitunganPincerSearch extends CI_Controller{
           $row = array();
           for($i=0;$i<count($r);$i++){
             $db = $this->DataBarang_model->getByKodeBarang($r[$i]);
-            $row[] = $db->namaBarang;
+            $row[] = trim($db->namaBarang);
           }
         $cow[] = $row;
         }
@@ -90,8 +90,8 @@ class PerhitunganPincerSearch extends CI_Controller{
         $no=0;
         foreach($dataDetailTransaksi as $ddt){
           $row = array();
-          $row["noInvoice"] = trim($ddt->noInvoice);
-          $row["kodeBarang"] = [trim($ddt->kodeBarang)];
+          $row["noInvoice"] = $ddt->noInvoice;
+          $row["kodeBarang"] = [$ddt->kodeBarang];
           $idx = array_search($ddt->noInvoice,array_column($detailTransaksiArray,'noInvoice')); 
           if($idx === false){
             $detailTransaksiArray[] = $row;
