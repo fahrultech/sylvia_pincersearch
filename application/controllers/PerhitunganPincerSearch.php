@@ -90,8 +90,8 @@ class PerhitunganPincerSearch extends CI_Controller{
         $no=0;
         foreach($dataDetailTransaksi as $ddt){
           $row = array();
-          $row["noInvoice"] = $ddt->noInvoice;
-          $row["kodeBarang"] = [$ddt->kodeBarang];
+          $row["noInvoice"] = trim($ddt->noInvoice);
+          $row["kodeBarang"] = [trim($ddt->kodeBarang)];
           $idx = array_search($ddt->noInvoice,array_column($detailTransaksiArray,'noInvoice')); 
           if($idx === false){
             $detailTransaksiArray[] = $row;
@@ -154,7 +154,7 @@ class PerhitunganPincerSearch extends CI_Controller{
         $pass["mfs"] = count($mfs) !== 0 ? $this->ss($mfs) : $mfs;
         $tempFreq = $frequent;
         count($mfs) > 0 ? $frequent = $this->lprune($frequent,$mfs) : $frequent = $frequent;
-        $mfcs = $this->removeMFCSSubset($this->sortByCount($this->getMFCS($infrequent,$mfcs)));
+        $mfcs = $this->getMFCS($infrequent,$mfcs);
         $pass["mfcs"] = count($mfcs) !== 0 ? $this->ss($mfcs) : $mfcs;
         $cdata = $this->removeMFCSSubset($this->joinData($frequent));
         if(count($tempFreq) !== count($frequent)){
@@ -306,7 +306,7 @@ class PerhitunganPincerSearch extends CI_Controller{
       $mfs = array();
       for($i=0;$i<count($mfcs);$i++){
         for($j=0;$j<count($db);$j++){
-          if(count(array_diff($mfcs[$i],$db[$j])) === 0){
+          if(count(array_diff($mfcs[$i],$db[$j])) == 0){
             $mfs[] = $mfcs[$i];
           }
         }
@@ -316,7 +316,7 @@ class PerhitunganPincerSearch extends CI_Controller{
     function removeMFCSSubset($data){
       for($i=0;$i<count($data)-1;$i++){
         for($j=$i+1;$j<count($data);$j++){
-          if(count(array_diff($data[$i],$data[$j])) === 0){
+          if(count(array_diff($data[$i],$data[$j])) == 0){
             array_splice($data,$i,1);
           }
         }
@@ -349,6 +349,7 @@ class PerhitunganPincerSearch extends CI_Controller{
                 $st = $tempMFCS;
                 array_splice($st,$key,1);
                 $MFCS[] = $st;
+                $MFCS = $this->sortByCount($this->removeMFCSSubset($MFCS));
             }
           }
         }
