@@ -10,27 +10,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <ul class="metismenu" id="side-menu">
                             <li class="menu-title">Menu</li>
                             <li>
-                                <a href="<?php echo site_url('ImportData');?>">
+                                <a href="<?php echo site_url('Importdata');?>">
                                     <i class="fi-box"></i><span> Import Data </span>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('DataBarang');?>">
+                                <a href="<?php echo site_url('Databarang');?>">
                                     <i class="fi-box"></i><span> Data Barang </span>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('DataTransaksi');?>">
+                                <a href="<?php echo site_url('Datatransaksi');?>">
                                     <i class="fi-air-play"></i><span> Data Transaksi </span>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('DataDetailTransaksi');?>">
+                                <a href="<?php echo site_url('Datadetailtransaksi');?>">
                                     <i class="fi-air-play"></i><span> Data Detail Transaksi </span>
                                 </a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('PerhitunganPincerSearch');?>"><i class="fi-target"></i> <span> Perhitungan Pincer</span></a>
+                                <a href="<?php echo site_url('Perhitunganpincersearch');?>"><i class="fi-target"></i> <span> Perhitungan Pincer</span></a>
                             </li>
                             <li>
                                 <a href="<?php echo site_url('Profile');?>"><i class="fi-briefcase"></i> <span> Edit Profile </span></a>
