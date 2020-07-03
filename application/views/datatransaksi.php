@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#trtgl').show()   
             }else{
                 $.ajax({
-                    url : "DataTransaksi/updateTransaksi",
+                    url : "Datatransaksi/updateTransaksi",
                     type : "POST",
                     data : data,
                     dataType : "JSON",
@@ -121,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         editTransaksi = id => {
             $('form')[0].reset();
             $.ajax({
-                url : `DataTransaksi/editTransaksi/${id}`,
+                url : `Datatransaksi/editTransaksi/${id}`,
                 type : "GET",
                 dataType : "JSON",
                 success : function(data){
@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         hapusTransaksi = id => {
             if(confirm("Apakah Anda Yakin Akan Menghapus Data Ini")){
                 $.ajax({
-                url : `DataTransaksi/hapustransaksi/${id}`,
+                url : `Datatransaksi/hapustransaksi/${id}`,
                 type: "POST",
                 dataType: "JSON",
                 success : function(data){
@@ -158,7 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 "serverSide" : true,
                 "order" : [],
                 "ajax" :{
-                    "url" : "<?php echo site_url('DataTransaksi/ajax_list');?>",
+                    "url" : "<?php echo site_url('Datatransaksi/ajax_list');?>",
                     "type" : "POST"
                 },
                 "columnDefs": [{

@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#nmbarang').show() 
             }else{
                 $.ajax({
-                    url : "DataBarang/updateBarang",
+                    url : "Databarang/updateBarang",
                     type : "POST",
                     data : $('form').serialize(),
                     dataType : "JSON",
@@ -112,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         hapusBarang = id => {
                 if(confirm("Apakah Anda Yakin Akan Menghapus Data Ini")){
                     $.ajax({
-                    url : `DataBarang/hapusBarang/${id}`,
+                    url : `Databarang/hapusBarang/${id}`,
                     type: "POST",
                     dataType: "JSON",
                     success : function(data){
@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('form')[0].reset();
             $('.modal-title').text('Edit Barang');
             $.ajax({
-               url : `DataBarang/editBarang/${id}`,
+               url : `Databarang/editBarang/${id}`,
                type : "GET",
                dataType : "JSON",
                success : function(data){
@@ -147,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 "serverSide" : true,
                 "order" : [],
                 "ajax" :{
-                    "url" : "<?php echo site_url('DataBarang/ajax_list');?>",
+                    "url" : "<?php echo site_url('Databarang/ajax_list');?>",
                     "type" : "POST"
                 },
                 "columnDefs": [{

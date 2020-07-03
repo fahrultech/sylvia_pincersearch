@@ -5,7 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Start right Content here -->
 <!-- ============================================================== -->
 <style>
-    
+#dm,#dtm,#trm,#trtm,#dtmm{
+    display:none
+}
 </style>
 <div class="content-page">
     <!-- Start content -->
@@ -119,7 +121,7 @@ $(document).ready(function(){
             $('.dtmm').show();
         }else{
            $.ajax({
-			url:"ImportData/import",
+			url:"Importdata/import",
 			method:"POST",
 			data:new FormData(this),
             dataType: "JSON",

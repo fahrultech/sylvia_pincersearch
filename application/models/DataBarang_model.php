@@ -7,7 +7,7 @@ class DataBarang_model extends CI_Model
     public $table = 'barang';
     public $id = 'idBarang';
     public $order = array('kodeBarang' => 'asc');
-    public $columnOrder = array('kodeBarang,namaBarang');
+    public $columnOrder = array('idBarang','kodeBarang','namaBarang');
     public $columnSearch = array('namaBarang');
 
     // Konstructor
@@ -53,6 +53,9 @@ class DataBarang_model extends CI_Model
         $this->_get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
+    }
+    function count_all(){
+        return $this->db->count_all($this->table);
     }
     function getById($id){
         $this->db->from($this->table);

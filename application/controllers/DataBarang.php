@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class DataBarang extends CI_Controller{
+class Databarang extends CI_Controller{
     function __construct(){
         parent::__construct();
         if (!isset($this->session->userdata['username'])) {
@@ -32,6 +32,7 @@ class DataBarang extends CI_Controller{
            $data[] = $row;
         }
         $output = array("draw" => $_POST['draw'],
+          "recordsTotal" => $this->databarang->count_all(),
           "recordsFiltered" => $this->databarang->count_filtered(),
           "data" => $data
         );

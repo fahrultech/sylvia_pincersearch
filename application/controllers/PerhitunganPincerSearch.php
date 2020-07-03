@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class PerhitunganPincerSearch extends CI_Controller{
+class Perhitunganpincersearch extends CI_Controller{
     private $mfcs = array();
     private $mfs = array();
     private $c1 = array();

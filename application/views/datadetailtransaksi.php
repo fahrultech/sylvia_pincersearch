@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 "serverSide" : true,
                 "order" : [],
                 "ajax" :{
-                    "url" : "<?php echo site_url('DataDetailTransaksi/ajax_list');?>",
+                    "url" : "<?php echo site_url('Datadetailtransaksi/ajax_list');?>",
                     "type" : "POST"
                 },
                 "columnDefs": [{

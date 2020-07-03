@@ -7,7 +7,7 @@ class DataTransaksi_model extends CI_Model
     public $table = 'transaksi';
     public $id = 'idTransaksi';
     public $order = array('tanggal' => 'asc');
-    public $columnOrder = array('tanggal,noInvoice');
+    public $columnOrder = array('idTransaksi','tanggal','noInvoice');
     public $columnSearch = array('noInvoice');
 
     // Konstructor

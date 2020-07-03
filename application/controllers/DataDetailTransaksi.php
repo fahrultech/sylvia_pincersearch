@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class DataDetailTransaksi extends CI_Controller{
+class Datadetailtransaksi extends CI_Controller{
     function __construct(){
         parent::__construct();
         if (!isset($this->session->userdata['username'])) {

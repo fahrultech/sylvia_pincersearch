@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class DataTransaksi extends CI_Controller{
+class Datatransaksi extends CI_Controller{
     function __construct(){
         parent::__construct();
         if (!isset($this->session->userdata['username'])) {
@@ -33,6 +33,7 @@ class DataTransaksi extends CI_Controller{
            $data[] = $row;
         }
         $output = array("draw" => $_POST['draw'],
+          "recordsTotal" => $this->datatransaksi->count_all(),
           "recordsFiltered" => $this->datatransaksi->count_filtered(),
           "data" => $data
         );

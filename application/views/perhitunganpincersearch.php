@@ -183,7 +183,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         && data.minsupport !== ""
         && data.minconfidence !== ""){
             $.ajax({
-         url : "PerhitunganPincerSearch/getByDate",
+         url : "Perhitunganpincersearch/getByDate",
          type: "POST",
          data : data,
          dataType: "JSON",
