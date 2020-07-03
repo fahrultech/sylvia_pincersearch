@@ -43,23 +43,31 @@ class Importdata extends CI_Controller{
                 $highestColumn = $worksheet->getHighestColumn();
                 for($row=2; $row<=$highestRow; $row++){
                     $date = strtotime($worksheet->getCellByColumnAndRow(0, $row)->getFormattedValue());
+                    //echo $date."</br>";
+
                     $noinvoice = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
                     $kodebarang = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
                     $namabarang = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
                     $tanggal = date('Y-m-d',$date);
-                    $dataBarang[] = array(
-                        'kodeBarang' => $kodebarang,
-                        'namaBarang' => $namabarang
-                    );
-                    $headerTransaksi[] = array(
-                        'tanggal' => $tanggal,
-                        'noInvoice' => $noinvoice
-                    );
-                    $detailTransaksi[] = array(
-                        'noInvoice' => $noinvoice,
-                        'kodeBarang' => $kodebarang,
-                        'tanggal' => $tanggal
-                    );
+                    if($kodebarang != null){
+                        $dataBarang[] = array(
+                            'kodeBarang' => $kodebarang,
+                            'namaBarang' => $namabarang
+                        );
+                    }
+                    if($noinvoice != null){
+                        $headerTransaksi[] = array(
+                            'tanggal' => $tanggal,
+                            'noInvoice' => $noinvoice
+                        );
+                    }
+                    if($noinvoice != null){
+                        $detailTransaksi[] = array(
+                            'noInvoice' => $noinvoice,
+                            'kodeBarang' => $kodebarang,
+                            'tanggal' => $tanggal
+                        );
+                    }
                 }
             }
             $dataBarang = $this->unique_multidim_array($dataBarang,'kodeBarang');
