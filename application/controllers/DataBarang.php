@@ -38,10 +38,14 @@ class Databarang extends CI_Controller{
         );
         echo json_encode($output);
     }
+
+    //mengambil data barang berdasarkan id ke sistem
     function editBarang($id){
         $data = $this->DataBarang_model->getById($id);
         echo json_encode($data);
     }
+
+    //edit di db
     function updateBarang(){
         $data = array(
             'kodeBarang' => $this->input->post('kodeBarang'),

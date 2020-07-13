@@ -39,10 +39,14 @@ class Datatransaksi extends CI_Controller{
         );
         echo json_encode($output);
     }
+
+    //mengambil data transaksi berdasarkan id ke sistem
     function editTransaksi($id){
         $data = $this->DataTransaksi_model->getById($id);
         echo json_encode($data);
     }
+
+    //mengedit di db
     function updateTransaksi(){
         $data = array(
             'tanggal' => $this->input->post('tanggal'),
